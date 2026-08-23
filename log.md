@@ -15,6 +15,11 @@
 
 ---
 
+## 2026-08-23 ｜ 第二份講義 intro-deeplearning 完成（完整 23 頁＋兩份學習單）
+- 改了什麼：`lessons/intro-deeplearning/`——《一起潛進 AI！》互動工作坊**完整版**（S1–S22＋中場，共 23 張，手帳風）＋兩份 A4 可列印學習單：`worksheet-softmax.pdf`（配 S10）、`worksheet-agent-rolecard.pdf`（配 S19 真人 Agent 班遊，含角色分配與工具呼叫記錄表）。逐頁規劃在 `ideas/intro-deeplearning.md`。已加進首頁 `index.html` 講義庫卡片。
+- 慣例：**可列印素材（學習單等）放進該講義資料夾**（`lessons/<slug>/worksheet-*.pdf`），跟簡報一起 self-contained。
+- 誰：yenlung + Claude Cowork
+
 ## 2026-08-23 ｜ 重組為 GitHub Pages 結構（英文路徑）
 - 改了什麼：資料夾整理成 GitHub repo（org `diveai-lab`）。改名：`slides/`→`lessons/`、`入門作業`→`intro-assignment`、`slides_note/`→`slide-notes/`、`asset/`→`shared-assets/`（4 個中文吉祥物檔→英文）、內容稿 .md→英文 slug。新增：根 `index.html`（講義總目錄首頁）、`README.md`、`.nojekyll`、`.gitignore`、`assets/`（首頁圖）。stray `assets/compare.html` 移到 `_to_delete/`。CLAUDE.md 全面改用英文路徑並加 Pages 說明。
 - 為什麼 / 影響到哪些未來檔案：URL 會用到的路徑一律英文小寫連字號（Pages 網址友善）。**命名慣例改變**：講義三處用同一英文 slug（`lessons/<slug>/`、`ideas/<slug>.md`、`slide-notes/<slug>.md`），新講義要加進首頁卡片。

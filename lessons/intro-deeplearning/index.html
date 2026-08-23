@@ -1,0 +1,502 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一起潛進 AI！・互動工作坊</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+--cream:#FCF8F0;--paper:#FFFDF8;--sky:#8FCFE2;--sky-soft:#D6EEF6;--blue:#5FA8C4;
+--navy:#2E5C74;--blush:#F4B3BE;--blush-soft:#FCE1E6;--teal:#7CCBC9;--yellow:#F7E6A8;--ink:#41505A;
+--round:"M PLUS Rounded 1c","Noto Sans TC",sans-serif;--body:"Noto Sans TC","M PLUS Rounded 1c",sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
+body{background:#e6ded0;font-family:var(--body);color:var(--ink);display:flex;align-items:center;justify-content:center;min-height:100vh;overflow:hidden}
+.deck{width:min(96vw,1180px);aspect-ratio:16/9;position:relative}
+.slide{position:absolute;inset:0;border-radius:28px;overflow:hidden;opacity:0;transform:rotate(-.5deg) scale(.985);transition:.45s ease;pointer-events:none;
+background:radial-gradient(circle,#E7DFCE 1.5px,transparent 1.6px) 0 0/26px 26px,var(--cream);box-shadow:0 26px 64px rgba(46,92,116,.20)}
+.slide.active{opacity:1;transform:none;pointer-events:auto}
+.tape{position:absolute;width:136px;height:36px;background:var(--sky);opacity:.5;transform:rotate(-6deg);border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.tape.b{background:var(--blush);transform:rotate(7deg)}.tape.y{background:var(--yellow);opacity:.72}.tape.t{background:var(--teal);opacity:.5}
+.pad{position:absolute;inset:0;padding:50px 60px;display:flex;flex-direction:column}
+/* 封面 */
+.brandrow{display:flex;align-items:center;gap:12px;transform:rotate(-1deg)}
+.brandrow img{height:38px}
+.badge{align-self:flex-start;background:var(--navy);color:#fff;font-family:var(--round);font-weight:800;padding:8px 22px;border-radius:999px;font-size:15px;transform:rotate(-1.5deg);box-shadow:0 6px 0 rgba(46,92,116,.18);margin-top:12px}
+h1{font-family:var(--round);font-weight:800;color:var(--navy);font-size:60px;line-height:1.18;margin-top:auto}
+h1 .u{background:linear-gradient(transparent 58%,var(--yellow) 58%);padding:0 8px}
+h1 .hl{color:var(--blue)}
+.sub{margin:16px 0 auto;font-size:21px;color:#5f6d76;line-height:1.7;max-width:620px;font-family:var(--round);font-weight:700}
+.mascot{position:absolute;bottom:16px;right:46px;width:236px;transform:rotate(3deg);filter:drop-shadow(0 14px 18px rgba(46,92,116,.18))}
+.mascot.sm{width:150px}
+.speech{position:absolute;background:#fff;border:3px solid var(--navy);border-radius:18px;padding:11px 17px;font-family:var(--round);font-weight:700;color:var(--navy);font-size:16px;transform:rotate(-2deg);z-index:6;white-space:nowrap}
+.speech:after{content:"";position:absolute;bottom:-14px;right:34px;width:0;height:0;border:12px solid transparent;border-top-color:var(--navy)}
+/* 內頁通用 */
+h2{font-family:var(--round);font-weight:800;color:var(--navy);font-size:38px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+h2 .qn{color:#fff;background:var(--blue);min-width:52px;height:52px;padding:0 10px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:24px;transform:rotate(-4deg);box-shadow:3px 3px 0 rgba(46,92,116,.16)}
+.hand{width:124px;height:8px;margin:12px 0 24px;background:radial-gradient(circle,var(--blush) 40%,transparent 41%) 0 0/16px 8px repeat-x}
+.oneline{margin-top:auto;font-family:var(--round);font-weight:700;color:var(--navy);font-size:19px;background:var(--sky-soft);border:3px solid var(--navy);border-radius:16px;padding:14px 22px;transform:rotate(-.4deg);align-self:flex-start}
+.statement{font-family:var(--round);font-weight:800;color:var(--navy);font-size:30px;line-height:1.55}
+.statement .u{background:linear-gradient(transparent 56%,var(--yellow) 56%);padding:0 5px}
+/* 任務徽章 */
+.taskbadge{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-family:var(--round);font-weight:800;color:#fff;padding:7px 18px;border-radius:999px;font-size:15px;transform:rotate(-1deg);box-shadow:3px 3px 0 rgba(46,92,116,.14);margin-bottom:10px}
+.taskbadge.solo{background:var(--blue)}
+.taskbadge.group{background:var(--teal)}
+/* 潛水路線圖 */
+.jmap{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-top:34px;position:relative;padding:0 10px}
+.jmap:before{content:"";position:absolute;top:28px;left:10%;right:10%;border-top:4px dashed var(--sky);z-index:0}
+.station{flex:1;text-align:center;position:relative;z-index:1}
+.station .dot{width:56px;height:56px;border-radius:50%;background:var(--sky);border:3px solid var(--navy);color:#fff;font-family:var(--round);font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:4px 4px 0 rgba(46,92,116,.14)}
+.station:nth-child(2) .dot{background:var(--blush)}.station:nth-child(3) .dot{background:var(--teal)}.station:nth-child(4) .dot{background:#E7B96B}
+.station .lbl{font-family:var(--round);font-weight:800;color:var(--navy);font-size:18px}
+.station .sub{color:#5f6d76;font-size:13.5px;margin-top:4px;line-height:1.4}
+/* 輸入→呆一布→輸出 */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0}
+.fbox{background:var(--paper);border:3px solid var(--navy);border-radius:15px;padding:14px 20px;font-family:var(--round);font-weight:800;color:var(--navy);font-size:18px;box-shadow:4px 4px 0 rgba(46,92,116,.12)}
+.fbox.gd{background:var(--yellow)}
+.fbox.blank{border-style:dashed;color:#a9b4bb;background:#fff;min-width:150px;text-align:center}
+.farrow{font-family:var(--round);font-weight:800;color:var(--blue);font-size:24px}
+.io-dive{width:74px;filter:drop-shadow(0 6px 8px rgba(46,92,116,.16))}
+/* 便利貼 / 卡片 */
+.note-dash{background:var(--paper);border:3px dashed var(--navy);border-radius:18px;padding:16px 22px;margin-top:6px}
+.note-dash .t{font-family:var(--round);font-weight:800;color:var(--navy);font-size:18px;margin-bottom:4px}
+.note-dash p{color:#5f6d76;font-size:15.5px;line-height:1.6}
+.note-dash.pink{border-color:var(--blush)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:4px}
+.card{background:var(--paper);border:3px solid var(--navy);border-radius:22px;padding:22px 20px;position:relative;box-shadow:6px 6px 0 rgba(46,92,116,.14)}
+.card:nth-child(2){transform:rotate(-1.2deg)}.card:nth-child(3){transform:rotate(1.2deg)}
+.card .sticker{position:absolute;top:-16px;left:-12px;width:44px;height:44px;border-radius:50%;background:var(--sky);border:3px solid var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--round);font-weight:800;color:#fff;font-size:20px;transform:rotate(-8deg)}
+.card:nth-child(2) .sticker{background:var(--blush)}.card:nth-child(3) .sticker{background:var(--teal)}
+.card h3{font-family:var(--round);color:var(--navy);font-size:20px;margin:2px 0 8px}
+.card p{color:#5f6d76;font-size:15px;line-height:1.6}
+/* 分組規則 */
+.rules{display:flex;flex-direction:column;gap:13px;margin-top:2px}
+.ri{display:flex;gap:16px;align-items:center;background:var(--paper);border:3px dashed var(--sky);border-radius:16px;padding:14px 22px}
+.ri:nth-child(2){border-color:var(--blush)}.ri:nth-child(3){border-color:var(--teal)}
+.ri .box{flex:none;width:38px;height:38px;border-radius:11px;background:var(--sky-soft);border:3px solid var(--navy);display:flex;align-items:center;justify-content:center;color:var(--navy);font-family:var(--round);font-weight:800}
+.ri b{color:var(--navy);font-family:var(--round);font-size:18px}.ri span{color:#5f6d76;font-size:14.5px}
+/* softmax 分數卡 */
+.scores{display:flex;gap:20px;margin:2px 0 6px}
+.scard{flex:1;background:var(--paper);border:3px solid var(--navy);border-radius:20px;padding:16px 12px;text-align:center;box-shadow:5px 5px 0 rgba(46,92,116,.14)}
+.scard:nth-child(2){transform:rotate(-1.5deg)}.scard:nth-child(3){transform:rotate(1.5deg)}
+.scard .emoji{font-size:38px;line-height:1}
+.scard .nm{font-family:var(--round);font-weight:800;color:var(--navy);font-size:19px;margin-top:2px}
+.scard .val{font-family:var(--round);font-weight:800;font-size:32px;color:var(--blue);margin-top:2px}
+.scard .val.neg{color:#E08497}
+/* 學習單三關 */
+.levels{display:flex;flex-direction:column;gap:12px;margin-top:2px}
+.lvl{display:flex;gap:16px;align-items:flex-start;background:var(--paper);border:3px solid var(--navy);border-radius:16px;padding:14px 20px;box-shadow:4px 4px 0 rgba(46,92,116,.12)}
+.lvl .lb{flex:none;font-family:var(--round);font-weight:800;color:#fff;background:var(--sky);padding:6px 12px;border-radius:10px;font-size:14px;transform:rotate(-3deg)}
+.lvl:nth-child(2) .lb{background:var(--blush)}.lvl:nth-child(3) .lb{background:var(--teal)}
+.lvl b{font-family:var(--round);color:var(--navy);font-size:17px}.lvl span{color:#5f6d76;font-size:14.5px;display:block;margin-top:2px}
+/* softmax 揭曉 */
+.calc{display:flex;gap:12px;flex-wrap:wrap;margin:2px 0 6px}
+.cbox{background:var(--paper);border:3px solid var(--navy);border-radius:14px;padding:12px 16px;font-family:var(--round);font-weight:700;color:var(--navy);font-size:16px;box-shadow:3px 3px 0 rgba(46,92,116,.12)}
+.cbox b{color:var(--blue)}
+.rrow{display:flex;align-items:center;gap:14px;margin-bottom:9px}
+.rrow .nm{width:70px;font-family:var(--round);font-weight:800;color:var(--navy);font-size:17px}
+.rrow .track{flex:1;height:24px;border:3px solid var(--navy);border-radius:999px;background:#fff;overflow:hidden}
+.rrow .fill{height:100%;background:linear-gradient(90deg,var(--sky),var(--blue))}
+.rrow:nth-child(2) .fill{background:linear-gradient(90deg,#F6C7CF,var(--blush))}
+.rrow:nth-child(3) .fill{background:linear-gradient(90deg,#BEE3E0,var(--teal))}
+.rrow .pct{width:56px;text-align:right;font-family:var(--round);font-weight:800;color:var(--navy);font-size:17px}
+.formula{margin-top:10px;font-family:var(--round);font-weight:700;color:#7d8f98;font-size:15px}
+/* 配角人物 */
+.side-dive{position:absolute;bottom:16px;right:44px;width:150px;transform:rotate(3deg);filter:drop-shadow(0 12px 16px rgba(46,92,116,.16))}
+.groupstickers{display:flex;gap:6px;position:absolute;bottom:22px;right:48px;align-items:flex-end}
+.groupstickers img{width:120px;filter:drop-shadow(0 10px 14px rgba(46,92,116,.16))}
+.groupstickers img:nth-child(2){width:132px;transform:rotate(-3deg)}
+.groupstickers img:nth-child(3){transform:rotate(4deg)}
+/* 中場 */
+.breakwrap{margin:auto 0;text-align:center;width:100%}
+.breakwrap h1{font-size:56px;margin:0}
+.breakwrap p{margin-top:14px;font-family:var(--round);font-weight:700;color:#5f6d76;font-size:20px}
+/* 後半新版型 */
+.fbox.hi{background:var(--sky);color:#fff}
+.cards.two{grid-template-columns:1fr 1fr}
+.chips{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.chip{background:var(--paper);border:3px solid var(--navy);border-radius:12px;padding:8px 15px;font-family:var(--round);font-weight:800;color:var(--navy);font-size:20px;box-shadow:3px 3px 0 rgba(46,92,116,.12)}
+.chip.blank{border-style:dashed;color:#b3bdc3;background:#fff}
+.chip.arrow{border:none;box-shadow:none;color:var(--blue);padding:0 2px;font-size:22px}
+.loop{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:8px 0}
+.lp{background:var(--sky-soft);border:3px solid var(--navy);border-radius:14px;padding:11px 16px;font-family:var(--round);font-weight:800;color:var(--navy);font-size:16px;box-shadow:3px 3px 0 rgba(46,92,116,.12)}
+.loop .re{font-family:var(--round);font-weight:800;color:#D9788B;font-size:16px;margin-left:4px}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:4px}
+.role{background:var(--paper);border:3px solid var(--navy);border-radius:16px;padding:13px 15px;box-shadow:4px 4px 0 rgba(46,92,116,.12)}
+.role .rt{font-family:var(--round);font-weight:800;color:#fff;padding:4px 12px;border-radius:9px;font-size:14px;display:inline-block;margin-bottom:7px}
+.role p{font-size:13px;color:#5f6d76;line-height:1.55}.role p b{color:var(--navy)}
+.bigask{margin:auto 0;text-align:center;width:100%}
+.bigask h1{font-size:46px;line-height:1.35;margin:0}
+.bigask .blankline{display:inline-block;min-width:200px;border-bottom:5px dotted var(--blush)}
+.stamps{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.stamp{background:var(--paper);border:3px solid var(--navy);color:var(--navy);font-family:var(--round);font-weight:800;font-size:15px;padding:8px 18px;border-radius:14px;box-shadow:3px 3px 0 rgba(46,92,116,.14)}
+/* 導覽 */
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:#fff;padding:9px 16px;border-radius:999px;box-shadow:0 8px 22px rgba(46,92,116,.16);z-index:9}
+.nav button{border:none;background:var(--sky-soft);color:var(--navy);width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;font-family:var(--round)}
+.dots{display:flex;gap:6px}.pg{width:9px;height:9px;border-radius:50%;background:#d6cbb8;cursor:pointer}
+.pg.on{background:var(--blue);width:22px;border-radius:6px}
+.pageno{position:absolute;right:24px;bottom:14px;font-family:var(--round);font-weight:800;color:#c7bba6;font-size:14px}
+</style></head><body>
+<div class="deck">
+
+<!-- S1 封面 -->
+<section class="slide active">
+<div class="tape" style="top:26px;left:72px"></div><div class="tape b" style="top:20px;right:130px"></div>
+<div class="pad">
+<div class="brandrow"><img src="assets/logo.png" alt="呆一布 AI"></div>
+<span class="badge">呆一布 AI 共學實驗室・工作坊</span>
+<h1>一起<span class="u">潛進</span> <span class="hl">AI</span>！</h1>
+<p class="sub">打造你的呆萌型 AI 機器人 🤖</p>
+</div>
+<div class="speech" style="bottom:236px;right:72px">跟我一起下水吧！</div>
+<img class="mascot" src="assets/dive_wave.png" alt="DIVE">
+</section>
+
+<!-- S2 路線圖 -->
+<section class="slide">
+<div class="tape y" style="top:24px;left:64px"></div>
+<div class="pad">
+<h2>今天的潛水路線圖</h2><div class="hand"></div>
+<div class="jmap">
+<div class="station"><div class="dot">1</div><div class="lbl">餵它吃什麼？</div><div class="sub">輸入 → 輸出</div></div>
+<div class="station"><div class="dot">2</div><div class="lbl">變機率的魔法</div><div class="sub">發明 softmax</div></div>
+<div class="station"><div class="dot">3</div><div class="lbl">唬爛王的祕密</div><div class="sub">LLM 接龍</div></div>
+<div class="station"><div class="dot">4</div><div class="lbl">教 AI 跑腿</div><div class="sub">AI Agents</div></div>
+</div>
+<div class="oneline" style="margin-top:34px">今天不是「我上課」，是<b style="color:var(--blue)">你們動手、動口</b>！</div>
+</div>
+<img class="side-dive" src="assets/dive_explain.png" alt="DIVE">
+<div class="pageno">02</div>
+</section>
+
+<!-- S3 分組規則 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:100px"></div>
+<div class="pad">
+<h2>先分組！</h2><div class="hand"></div>
+<div class="note-dash" style="margin-bottom:16px"><div class="t">4–5 人一組 · 想一個呆萌隊名 🐣</div><p>先跟同組同學自我介紹，等等整場都用隊名一起闖關、計分。</p></div>
+<div class="rules">
+<div class="ri"><div class="box">1</div><div><b>每題每組都要有產出</b>　<span>不用完美，先講出來就對了。</span></div></div>
+<div class="ri"><div class="box">2</div><div><b>一半的題目沒有標準答案</b>　<span>敢想、敢猜最重要。</span></div></div>
+<div class="ri"><div class="box">3</div><div><b>敢說錯的組加分！</b>　<span>錯得有想法，比不敢開口更棒。</span></div></div>
+</div>
+</div>
+<div class="groupstickers"><img src="assets/student1.png"><img src="assets/student3.png"><img src="assets/student2.png"></div>
+<div class="pageno">03</div>
+</section>
+
+<!-- S4 呆萌機器人 -->
+<section class="slide">
+<div class="tape b" style="top:24px;left:60px"></div>
+<div class="pad">
+<h2><span class="qn">潛點 1</span> 餵呆一布吃什麼？</h2><div class="hand"></div>
+<div class="statement">AI 很會學樣子、預測、生成，<br>但它<span class="u">不會自己知道</span>要做什麼。</div>
+<div class="note-dash" style="margin-top:22px"><div class="t">所以我們的工作很簡單 👇</div><p>很清楚地告訴呆一布兩件事：<b style="color:var(--navy)">輸入是什麼、輸出是什麼</b>。中間怎麼學，交給它。</p></div>
+<div class="flow" style="margin-top:20px">
+<div class="fbox">輸入</div><div class="farrow">→</div>
+<img class="io-dive" src="assets/dive_explain.png"><div class="farrow">→</div>
+<div class="fbox gd">輸出</div>
+</div>
+</div>
+<div class="pageno">04</div>
+</section>
+
+<!-- S5 股價搶答 -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:90px"></div>
+<div class="pad">
+<span class="taskbadge solo">🙋 全班搶答</span>
+<h2>打造「股價預測」機器人</h2><div class="hand"></div>
+<div class="flow" style="margin:4px 0 18px">
+<div class="fbox blank">輸入＝？</div><div class="farrow">→</div>
+<img class="io-dive" src="assets/dive_think.png"><div class="farrow">→</div>
+<div class="fbox blank">輸出＝？</div>
+</div>
+<div class="note-dash pink"><div class="t">規則</div><p>想到什麼就喊出來——答案很多種都對！只要你那組有人開口，就<b style="color:var(--navy)">加分</b>。</p></div>
+</div>
+<img class="side-dive" src="assets/dive_think.png" alt="DIVE">
+<div class="pageno">05</div>
+</section>
+
+<!-- S6 學測分數 -->
+<section class="slide">
+<div class="tape t" style="top:24px;left:66px"></div>
+<div class="pad">
+<span class="taskbadge group">👥 小組討論</span>
+<h2>預測某校的「學測分數」</h2><div class="hand"></div>
+<div class="flow" style="margin:4px 0 18px">
+<div class="fbox blank">輸入＝？</div><div class="farrow">→</div>
+<img class="io-dive" src="assets/dive_explain.png"><div class="farrow">→</div>
+<div class="fbox blank">輸出＝？</div>
+</div>
+<div class="note-dash"><div class="t">先天馬行空，再問自己一句 🤔</div><p>你想到的那些輸入資料，<b style="color:var(--navy)">真的拿得到嗎？</b>好不好收集？</p></div>
+</div>
+<div class="pageno">06</div>
+</section>
+
+<!-- S7 營養成分 -->
+<section class="slide">
+<div class="tape b" style="top:22px;right:88px"></div>
+<div class="pad">
+<span class="taskbadge group">👥 小組討論</span>
+<h2>算出「這一餐的營養成分」</h2><div class="hand"></div>
+<div class="cards" style="margin-top:2px">
+<div class="card"><div class="sticker">!</div><h3>別把輸入輸出搞反</h3><p>「我吃了幾克蛋白質」是答案，不是輸入喔。</p></div>
+<div class="card"><div class="sticker">?</div><h3>輸出不是固定長度</h3><p>營養成分是一長串，跟「漲/跌」很不一樣。</p></div>
+<div class="card"><div class="sticker">★</div><h3>一個 AI 不必包辦</h3><p>可以先「拍照 → 認出食物」，再交給下一步。</p></div>
+</div>
+</div>
+<img class="side-dive" src="assets/dive_confused.png" alt="DIVE" style="width:130px">
+<div class="pageno">07</div>
+</section>
+
+<!-- S8 設計你的呆一布 -->
+<section class="slide">
+<div class="tape y" style="top:24px;left:64px"></div>
+<div class="pad">
+<span class="taskbadge group">👥 小組任務</span>
+<h2>設計你自己的呆一布！</h2><div class="hand"></div>
+<div class="statement">想一個你<span class="u">真心想要</span>的 AI 機器人，<br>越貼近生活越好。</div>
+<div class="note-dash" style="margin-top:22px"><div class="t">每組寫下三件事 ✏️</div><p>① 它的<b style="color:var(--navy)">輸入</b>是什麼　② <b style="color:var(--navy)">輸出</b>是什麼　③ 你為什麼想要它</p></div>
+</div>
+<img class="side-dive" src="assets/dive_cheer.png" alt="DIVE">
+<div class="pageno">08</div>
+</section>
+
+<!-- S9 softmax 大哉問 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:96px"></div>
+<div class="pad">
+<h2><span class="qn">潛點 2</span> 分數怎麼變機率？</h2><div class="hand"></div>
+<p style="color:#5f6d76;font-size:17px;margin-bottom:6px">呆一布看了一張圖，吐出三個分數：</p>
+<div class="scores">
+<div class="scard"><div class="emoji">🐱</div><div class="nm">貓</div><div class="val">2</div></div>
+<div class="scard"><div class="emoji">🐶</div><div class="nm">狗</div><div class="val">1</div></div>
+<div class="scard"><div class="emoji">🐰</div><div class="nm">兔</div><div class="val neg">−1</div></div>
+</div>
+<div class="oneline">它要說「我有 <b style="color:var(--blue)">70%</b> 確定是貓」——這 70% 哪來的？<br><span style="font-size:15px;color:#5f6d76">規則只有一條：所有機率加起來 ＝ 1，而且每個都 ≥ 0。</span></div>
+</div>
+<div class="pageno">09</div>
+</section>
+
+<!-- S10 學習單常駐 -->
+<section class="slide">
+<div class="tape b" style="top:24px;left:60px"></div>
+<div class="pad">
+<span class="taskbadge group">📄 學習單 · 10 分鐘</span>
+<h2>你來發明！</h2><div class="hand"></div>
+<div class="levels">
+<div class="lvl"><span class="lb">第一關</span><div><b>直接「除以總和」</b><span>算算看兔子的機率 → 會算出 −0.5，怪怪的 🤨</span></div></div>
+<div class="lvl"><span class="lb">第二關</span><div><b>那「取絕對值再除」呢？</b><span>檢查貓＞狗＞兔的大小順序有沒有被弄壞。</span></div></div>
+<div class="lvl"><span class="lb">第三關</span><div><b>想一個辦法…</b><span>讓所有數字「都變正、順序又不變」。</span></div></div>
+</div>
+</div>
+<div class="speech" style="bottom:120px;right:70px">數學課有個函數，<br>輸入任何數、輸出永遠是正的？</div>
+<img class="side-dive" src="assets/dive_think.png" alt="DIVE">
+<div class="pageno">10</div>
+</section>
+
+<!-- S11 softmax 揭曉 -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:90px"></div>
+<div class="pad">
+<h2>揭曉：你發明了 softmax！</h2><div class="hand"></div>
+<div class="calc">
+<div class="cbox">e² ≈ <b>7.39</b></div><div class="cbox">e¹ ≈ <b>2.72</b></div><div class="cbox">e⁻¹ ≈ <b>0.37</b></div><div class="cbox">總和 ≈ <b>10.48</b></div>
+</div>
+<div style="margin:14px 0 4px">
+<div class="rrow"><div class="nm">🐱 貓</div><div class="track"><div class="fill" style="width:70%"></div></div><div class="pct">70%</div></div>
+<div class="rrow"><div class="nm">🐶 狗</div><div class="track"><div class="fill" style="width:26%"></div></div><div class="pct">26%</div></div>
+<div class="rrow"><div class="nm">🐰 兔</div><div class="track"><div class="fill" style="width:4%"></div></div><div class="pct">4%</div></div>
+</div>
+<div class="oneline">都變正、順序不變、加起來剛好 ＝ 1 ✓　這就是<b style="color:var(--blue)">深度學習最常用的輸出層</b>！</div>
+<div class="formula">（公式現在才出現，因為你們已經懂了：softmaxᵢ ＝ eˣⁱ ⁄ Σ eˣ）</div>
+</div>
+<div class="pageno">11</div>
+</section>
+
+<!-- 中場休息 -->
+<section class="slide">
+<div class="tape" style="top:24px;right:80px"></div><div class="tape b" style="top:20px;left:90px"></div>
+<div class="pad">
+<div class="breakwrap">
+<span class="badge" style="align-self:center;margin:0 auto">中場休息</span>
+<h1 style="margin-top:20px">換個氣，<span class="u">等等繼續潛</span> 🤿</h1>
+<p>喝口水、動一動，等等我們去看「唬爛王」的祕密！</p>
+</div>
+</div>
+<img class="mascot" src="assets/dive_happy.png" alt="DIVE" style="width:200px;bottom:14px;left:52px;right:auto">
+<div class="pageno">☕ 中場</div>
+</section>
+
+<!-- S12 LLM 在做什麼 -->
+<section class="slide">
+<div class="tape b" style="top:24px;left:60px"></div>
+<div class="pad">
+<h2><span class="qn">潛點 3</span> LLM 其實在做什麼？</h2><div class="hand"></div>
+<div class="statement">它在做的事，其實只有一件：<br><span class="u">看前面的字，猜下一個字</span>。</div>
+<div class="note-dash" style="margin-top:22px"><div class="t">很像你天天在用的東西 📱</div><p>手機輸入法的選字預測、玩文字接龍——LLM 就是這個，只是強太多了。它不是「查到真相」，而是「生成」一段接得下去的字。</p></div>
+</div>
+<img class="side-dive" src="assets/dive_explain.png" alt="DIVE">
+<div class="pageno">12</div>
+</section>
+
+<!-- S13 選字就是 softmax -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:90px"></div>
+<div class="pad">
+<h2>選字，就是用 softmax 選的！</h2><div class="hand"></div>
+<p style="color:#5f6d76;font-size:16px;margin-bottom:6px">每個字先給一個編號，模型對「下一個字」吐出一堆分數：</p>
+<div class="flow" style="margin:6px 0 10px">
+<div class="fbox">前面的字</div><div class="farrow">→</div>
+<img class="io-dive" src="assets/dive_explain.png"><div class="farrow">→</div>
+<div class="fbox">每個字的分數</div><div class="farrow">→</div>
+<div class="fbox gd">softmax → 機率</div>
+</div>
+<div class="oneline">還記得潛點二嗎？<b style="color:var(--blue)">softmax</b> 把分數變成機率，再從裡面<b>抽一個字</b>——這就是它「說話」的方式。</div>
+</div>
+<div class="pageno">13</div>
+</section>
+
+<!-- S14 真人 LLM 接龍 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:96px"></div>
+<div class="pad">
+<span class="taskbadge group">👥 真人 LLM · 接龍</span>
+<h2>你們就是一台 LLM！</h2><div class="hand"></div>
+<div class="chips">
+<div class="chip">今</div><div class="chip">天</div><div class="chip">天</div><div class="chip">氣</div>
+<div class="chip arrow">→</div><div class="chip blank">？</div><div class="chip blank">？</div><div class="chip blank">…</div>
+</div>
+<div class="note-dash" style="margin-top:14px"><div class="t">玩法</div><p>給一個開頭，組內同學<b>輪流、一次只加一個字</b>，接成一句話。跟別組同開頭比比看——<b>結果差多少？</b></p></div>
+</div>
+<img class="side-dive" src="assets/student1.png" alt="同學" style="width:132px">
+<div class="pageno">14</div>
+</section>
+
+<!-- S15 幻覺 -->
+<section class="slide">
+<div class="tape b" style="top:24px;left:64px"></div>
+<div class="pad">
+<h2>LLM 生成的，都是「幻覺」</h2><div class="hand"></div>
+<div class="statement">它每一次都是「<span class="u">生成</span>」，<br>不是「查到真相」。</div>
+<div class="note-dash pink" style="margin-top:22px"><div class="t">所以要有批判性思考 🧠</div><p>特別是 AI 幫你寫的作業、報告——<b>一定要讀完、真的懂、改過</b>，變成你自己的東西，才能交出去。</p></div>
+</div>
+<img class="side-dive" src="assets/dive_confused.png" alt="DIVE" style="width:132px">
+<div class="pageno">15</div>
+</section>
+
+<!-- S16 寫 Prompt -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:90px"></div>
+<div class="pad">
+<h2>寫 Prompt 沒那麼難</h2><div class="hand"></div>
+<div class="cards two" style="margin-top:6px">
+<div class="card"><div class="sticker">1</div><h3>提供正確的資訊</h3><p>它不知道你腦中的背景——把該給的資料、條件講清楚。</p></div>
+<div class="card"><div class="sticker">2</div><h3>給清楚的指引</h3><p>要它做什麼、輸出成什麼樣子、給誰看，講明白。</p></div>
+</div>
+<div class="oneline">兩個重點而已：<b style="color:var(--blue)">正確的資訊 ＋ 清楚的指引</b>。</div>
+</div>
+<div class="pageno">16</div>
+</section>
+
+<!-- S17 來回工作 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:96px"></div>
+<div class="pad">
+<h2>必殺技：和 AI 一起「來回」工作</h2><div class="hand"></div>
+<div class="loop">
+<div class="lp">先粗略問</div><div class="farrow">→</div>
+<div class="lp">看結果</div><div class="farrow">→</div>
+<div class="lp">補資訊 / 加限制 / 給範例</div><div class="farrow">↻</div>
+<span class="re">…再問一次！</span>
+</div>
+<div class="note-dash" style="margin-top:16px"><div class="t">👥 快問快答</div><p>爛 prompt：「幫我寫報告。」——各組喊一句，<b>你會補什麼讓它變清楚？</b></p></div>
+<div class="oneline">好 prompt 不是一次寫對的，是<b style="color:var(--blue)">磨</b>出來的。</div>
+</div>
+<div class="pageno">17</div>
+</section>
+
+<!-- S18 Agent 標題 -->
+<section class="slide">
+<div class="tape b" style="top:24px;left:60px"></div>
+<div class="pad">
+<h2><span class="qn">潛點 4</span> 教 AI 跑腿：AI Agent</h2><div class="hand"></div>
+<p style="color:#5f6d76;font-size:17px;margin-bottom:6px">不只「你問一句、它答一段」，而是為了達成目標，自己一步步行動：</p>
+<div class="flow">
+<div class="fbox gd">目標</div><div class="farrow">→</div>
+<div class="fbox">拆解任務</div><div class="farrow">→</div>
+<div class="fbox">用工具</div><div class="farrow">→</div>
+<div class="fbox">看結果</div><div class="farrow">→</div>
+<div class="fbox hi">調整</div><div class="farrow">→</div>
+<div class="fbox">完成</div>
+</div>
+<div class="oneline">把「人怎麼把事做好」拆成步驟教給它——這就是 Agent（吳恩達的 agentic design pattern 也是這概念）。</div>
+</div>
+<img class="side-dive" src="assets/dive_explain.png" alt="DIVE">
+<div class="pageno">18</div>
+</section>
+
+<!-- S19 真人 Agent 角色 -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:90px"></div>
+<div class="pad">
+<span class="taskbadge group">👥 真人 Agent · 角色分配</span>
+<h2>規劃一場班遊！</h2><div class="hand"></div>
+<div class="roles">
+<div class="role"><span class="rt" style="background:var(--navy)">🧠 LLM</span><p>只能用嘴巴想、說話，<b>不准自己查任何東西</b>。</p></div>
+<div class="role"><span class="rt" style="background:var(--blue)">🔢 工具 A · 計算機</span><p>只回答算式的答案。</p></div>
+<div class="role"><span class="rt" style="background:var(--teal)">🔍 工具 B · 搜尋</span><p>可用手機查，只回傳查到的內容，不給意見。</p></div>
+<div class="role"><span class="rt" style="background:#D9944A">📅 工具 C · 行事曆/地圖</span><p>回傳日期、路線之類的事實。</p></div>
+<div class="role"><span class="rt" style="background:#D9788B">📝 記錄員</span><p>記下 LLM 每次「呼叫了哪個工具、輸入什麼」。</p></div>
+<div class="role" style="background:var(--sky-soft);border-style:dashed"><span class="rt" style="background:var(--navy)">🎯 任務</span><p>每人 <b>500 元</b>內的班遊。LLM 每次要明說「我要呼叫○○，輸入是…」。</p></div>
+</div>
+</div>
+<div class="pageno">19</div>
+</section>
+
+<!-- S20 越強 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:96px"></div>
+<div class="pad">
+<h2>自己越強，AI 就越強</h2><div class="hand"></div>
+<div class="statement">你有專業、你清楚一件事<span class="u">該怎麼做</span>，<br>你才有辦法教 AI、要它幫你做好。</div>
+<div class="oneline" style="margin-top:26px">少了「懂的人」，AI 只是一台很會輸出、卻不知道自己在幹嘛的呆萌機器。</div>
+</div>
+<img class="side-dive" src="assets/dive_cheer.png" alt="DIVE">
+<div class="pageno">20</div>
+</section>
+
+<!-- S21 每組一句話 -->
+<section class="slide">
+<div class="tape" style="top:24px;right:80px"></div><div class="tape b" style="top:20px;left:90px"></div>
+<div class="pad">
+<div class="bigask">
+<span class="taskbadge group">👥 每組一句話</span>
+<h1 style="margin-top:20px">今天最讓你「<span class="hl">蛤？！</span>」的<br>一件事是 <span class="blankline"></span></h1>
+</div>
+</div>
+<div class="pageno">21</div>
+</section>
+
+<!-- S22 結尾 -->
+<section class="slide">
+<div class="tape" style="top:24px;right:80px"></div><div class="tape b" style="top:20px;left:90px"></div>
+<div class="pad">
+<div class="breakwrap">
+<span class="badge" style="display:inline-block">下潛完成 🤿</span>
+<h1 style="margin-top:16px;font-size:50px">AI 會接龍，<br>但你的<span class="u">人生劇本</span>要自己寫。</h1>
+<div class="stamps" style="margin-top:24px"><span class="stamp">課程連結</span><span class="stamp">YouTube 頻道</span><span class="stamp">推薦免費工具</span></div>
+</div>
+</div>
+<img class="mascot" src="assets/dive_happy.png" alt="DIVE" style="width:196px;bottom:14px;left:52px;right:auto">
+<div class="pageno">22</div>
+</section>
+
+</div>
+<div class="nav"><button onclick="go(-1)">‹</button><div class="dots" id="dots"></div><button onclick="go(1)">›</button></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;const dots=document.getElementById('dots');
+slides.forEach((_,k)=>{const d=document.createElement('div');d.className='pg'+(k?'':' on');d.onclick=()=>set(k);dots.appendChild(d);});
+function set(n){i=(n+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===i));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));}
+function go(d){set(i+d);}
+addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1);});
+</script>
+</body></html>
