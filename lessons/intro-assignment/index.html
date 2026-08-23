@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>呆一布 AI 共學實驗室・入門作業</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+--cream:#FCF8F0;--paper:#FFFDF8;--sky:#8FCFE2;--sky-soft:#D6EEF6;--blue:#5FA8C4;
+--navy:#2E5C74;--blush:#F4B3BE;--blush-soft:#FCE1E6;--teal:#7CCBC9;--yellow:#F7E6A8;--ink:#41505A;
+--round:"M PLUS Rounded 1c","Noto Sans TC",sans-serif;--body:"Noto Sans TC","M PLUS Rounded 1c",sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
+body{background:#e6ded0;font-family:var(--body);color:var(--ink);display:flex;align-items:center;justify-content:center;min-height:100vh;overflow:hidden}
+.deck{width:min(96vw,1180px);aspect-ratio:16/9;position:relative}
+.slide{position:absolute;inset:0;border-radius:28px;overflow:hidden;opacity:0;transform:rotate(-.5deg) scale(.985);transition:.45s ease;pointer-events:none;
+background:radial-gradient(circle,#E7DFCE 1.5px,transparent 1.6px) 0 0/26px 26px,var(--cream);box-shadow:0 26px 64px rgba(46,92,116,.20)}
+.slide.active{opacity:1;transform:none;pointer-events:auto}
+.tape{position:absolute;width:136px;height:36px;background:var(--sky);opacity:.5;transform:rotate(-6deg);border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.tape.b{background:var(--blush);transform:rotate(7deg)}.tape.y{background:var(--yellow);opacity:.72}.tape.t{background:var(--teal);opacity:.5}
+.pad{position:absolute;inset:0;padding:52px 60px;display:flex;flex-direction:column}
+/* 封面 */
+.brandrow{display:flex;align-items:center;gap:12px;transform:rotate(-1deg)}
+.brandrow img{height:40px}
+.badge{align-self:flex-start;background:var(--navy);color:#fff;font-family:var(--round);font-weight:800;padding:8px 22px;border-radius:999px;font-size:15px;transform:rotate(-1.5deg);box-shadow:0 6px 0 rgba(46,92,116,.18);margin-top:14px}
+h1{font-family:var(--round);font-weight:800;color:var(--navy);font-size:58px;line-height:1.2;margin-top:auto}
+h1 .u{background:linear-gradient(transparent 58%,var(--yellow) 58%);padding:0 6px}
+h1 .hl{color:var(--blue)}
+.sub{margin:18px 0 auto;font-size:19px;color:#5f6d76;line-height:1.75;max-width:560px}
+.mascot{position:absolute;bottom:18px;right:48px;width:230px;transform:rotate(3deg);filter:drop-shadow(0 14px 18px rgba(46,92,116,.18))}
+.mascot.sm{width:200px}
+.speech{position:absolute;background:#fff;border:3px solid var(--navy);border-radius:18px;padding:11px 17px;font-family:var(--round);font-weight:700;color:var(--navy);font-size:16px;transform:rotate(-2deg);z-index:6;white-space:nowrap}
+.speech:after{content:"";position:absolute;bottom:-14px;right:34px;width:0;height:0;border:12px solid transparent;border-top-color:var(--navy)}
+/* 內頁通用 */
+h2{font-family:var(--round);font-weight:800;color:var(--navy);font-size:40px;display:flex;align-items:center;gap:14px}
+h2 .qn{color:#fff;background:var(--blue);width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;transform:rotate(-4deg);box-shadow:3px 3px 0 rgba(46,92,116,.16)}
+.hand{width:124px;height:8px;margin:14px 0 26px;background:radial-gradient(circle,var(--blush) 40%,transparent 41%) 0 0/16px 8px repeat-x}
+.statement{font-family:var(--round);font-weight:800;color:var(--navy);font-size:30px;line-height:1.55}
+.statement .u{background:linear-gradient(transparent 56%,var(--yellow) 56%);padding:0 5px}
+.oneline{margin-top:auto;font-family:var(--round);font-weight:700;color:var(--navy);font-size:19px;background:var(--sky-soft);border:3px solid var(--navy);border-radius:16px;padding:14px 22px;transform:rotate(-.4deg);align-self:flex-start}
+/* 貼紙卡 */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:6px}
+.card{background:var(--paper);border:3px solid var(--navy);border-radius:22px;padding:24px 22px;position:relative;box-shadow:6px 6px 0 rgba(46,92,116,.14)}
+.card:nth-child(2){transform:rotate(-1.2deg)}.card:nth-child(3){transform:rotate(1.2deg)}
+.sticker{position:absolute;top:-18px;left:-14px;width:46px;height:46px;border-radius:50%;background:var(--sky);border:3px solid var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--round);font-weight:800;color:#fff;font-size:22px;transform:rotate(-8deg)}
+.card:nth-child(2) .sticker{background:var(--blush)}.card:nth-child(3) .sticker{background:var(--teal)}
+.card h3{font-family:var(--round);color:var(--navy);font-size:21px;margin:4px 0 9px}
+.card p{color:#5f6d76;font-size:15.5px;line-height:1.65}
+/* 便利貼清單 */
+.check{display:flex;flex-direction:column;gap:14px;margin-top:2px}
+.ci{display:flex;gap:16px;align-items:center;background:var(--paper);border:3px dashed var(--sky);border-radius:18px;padding:15px 22px}
+.ci:nth-child(2){border-color:var(--blush)}.ci:nth-child(3){border-color:var(--teal)}.ci:nth-child(4){border-color:var(--blue)}
+.ci .box{flex:none;width:38px;height:38px;border-radius:11px;background:var(--sky-soft);border:3px solid var(--navy);display:flex;align-items:center;justify-content:center;color:var(--navy);font-family:var(--round);font-weight:800;font-size:18px}
+.ci b{color:var(--navy);font-family:var(--round);font-size:18px}.ci span{color:#5f6d76;font-size:15px;display:block;margin-top:2px}
+.two-col{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:center;flex:1}
+/* 流程 */
+.flow{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:6px 0 22px}
+.fbox{background:var(--paper);border:3px solid var(--navy);border-radius:15px;padding:13px 17px;font-family:var(--round);font-weight:800;color:var(--navy);font-size:16.5px;box-shadow:4px 4px 0 rgba(46,92,116,.12)}
+.fbox.hi{background:var(--sky);color:#fff}.fbox.gd{background:var(--yellow)}
+.farrow{font-family:var(--round);font-weight:800;color:var(--blue);font-size:22px}
+.note-dash{background:var(--paper);border:3px dashed var(--navy);border-radius:18px;padding:18px 24px;margin-bottom:18px}
+.note-dash .t{font-family:var(--round);font-weight:800;color:var(--navy);font-size:19px;margin-bottom:4px}
+.note-dash p{color:#5f6d76;font-size:15.5px;line-height:1.6}
+.tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.tag{background:var(--sky-soft);border:2px solid var(--navy);color:var(--navy);font-family:var(--round);font-weight:700;font-size:14.5px;padding:7px 15px;border-radius:999px}
+/* 配角人物 */
+.figwrap{position:relative;justify-self:center;text-align:center}
+.figwrap img{width:280px;transform:rotate(-2deg);filter:drop-shadow(0 14px 18px rgba(46,92,116,.16))}
+.figwrap .bubble{position:absolute;top:-20px;left:-30px;z-index:6;background:#fff;border:3px solid var(--blush);border-radius:20px;padding:11px 16px;font-family:var(--round);font-weight:700;color:var(--navy);font-size:15.5px;max-width:210px;line-height:1.5;transform:rotate(-3deg)}
+.figwrap .bubble:after{content:"";position:absolute;bottom:-14px;left:40px;width:0;height:0;border:9px solid transparent;border-top-color:#fff}
+.figwrap .who{display:inline-block;margin-top:4px;background:var(--navy);color:#fff;font-family:var(--round);font-weight:800;font-size:14.5px;padding:5px 16px;border-radius:999px;transform:rotate(1deg)}
+/* 六步驟便利貼 */
+.steps6{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:2px}
+.s6{background:var(--paper);border:3px solid var(--navy);border-radius:16px;padding:14px 16px;box-shadow:4px 4px 0 rgba(46,92,116,.12);position:relative}
+.s6 .n{position:absolute;top:-14px;left:-10px;width:34px;height:34px;border-radius:50%;background:var(--blush);border:3px solid var(--navy);color:#fff;font-family:var(--round);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px;transform:rotate(-6deg)}
+.s6 b{font-family:var(--round);color:var(--navy);font-size:16.5px}.s6 span{display:block;color:#5f6d76;font-size:13.5px;margin-top:3px;line-height:1.5}
+/* 結尾章戳 */
+.endwrap{margin:auto 0;text-align:center;width:100%}
+.endwrap h1{font-size:52px;margin:0}
+.endwrap .sub2{margin:16px auto 0;font-size:18px;color:#5f6d76;max-width:640px;line-height:1.7}
+.stamps{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+.stamp{background:var(--paper);border:3px solid var(--navy);color:var(--navy);font-family:var(--round);font-weight:800;font-size:15px;padding:9px 18px;border-radius:14px;box-shadow:3px 3px 0 rgba(46,92,116,.14)}
+.stamp:nth-child(2){transform:rotate(-2deg)}.stamp:nth-child(3){transform:rotate(2deg)}
+.end-mascot{position:absolute;bottom:14px;left:52px;width:196px;transform:rotate(-4deg);filter:drop-shadow(0 14px 18px rgba(46,92,116,.18))}
+.corner-dive{position:absolute;bottom:18px;right:44px;width:150px;transform:rotate(4deg);filter:drop-shadow(0 12px 16px rgba(46,92,116,.16))}
+/* 導覽 */
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:#fff;padding:9px 16px;border-radius:999px;box-shadow:0 8px 22px rgba(46,92,116,.16);z-index:9}
+.nav button{border:none;background:var(--sky-soft);color:var(--navy);width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;font-family:var(--round)}
+.dots{display:flex;gap:6px}.pg{width:9px;height:9px;border-radius:50%;background:#d6cbb8;cursor:pointer}
+.pg.on{background:var(--blue);width:22px;border-radius:6px}
+.pageno{position:absolute;right:26px;bottom:16px;font-family:var(--round);font-weight:800;color:#c7bba6;font-size:14px}
+</style></head><body>
+<div class="deck">
+
+<!-- P1 封面 -->
+<section class="slide active">
+<div class="tape" style="top:26px;left:72px"></div><div class="tape b" style="top:20px;right:130px"></div>
+<div class="pad">
+<div class="brandrow"><img src="assets/logo.png" alt="呆一布 AI"></div>
+<span class="badge">呆一布 AI 共學實驗室・入門作業</span>
+<h1>歡迎<span class="u">跳進</span> AI，<br>先聊幾個<span class="hl">問題</span>！</h1>
+<p class="sub">一份沒有標準答案的作業——我們想看見的，是你怎麼想。</p>
+</div>
+<div class="speech" style="bottom:238px;right:74px">你好呀，我是 DIVE！</div>
+<img class="mascot" src="assets/dive_wave.png" alt="DIVE">
+</section>
+
+<!-- P2 這份作業想看什麼 -->
+<section class="slide">
+<div class="tape y" style="top:24px;left:64px"></div>
+<div class="pad">
+<h2>這份作業，想看的是什麼？</h2><div class="hand"></div>
+<div class="statement">不是考你<span class="u">背誦</span>，<br>是看你是不是<span class="u">真的懂</span>。</div>
+<div class="cards" style="margin-top:26px">
+<div class="card"><div class="sticker">1</div><h3>沒有標準答案</h3><p>我們不比誰背得多，比你有沒有真的想過。</p></div>
+<div class="card"><div class="sticker">2</div><h3>用自己的話說</h3><p>能解釋你寫的每一句話，就是懂了。</p></div>
+<div class="card"><div class="sticker">3</div><h3>連到真實例子</h3><p>把抽象的概念，接回你看得到的生活。</p></div>
+</div>
+</div>
+<div class="pageno">02</div>
+</section>
+
+<!-- P3 可以用 AI 嗎 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:100px"></div>
+<div class="pad two-col">
+<div>
+<h2>可以用 AI 嗎？可以，而且鼓勵！</h2><div class="hand"></div>
+<div class="check">
+<div class="ci"><div class="box">✓</div><div><b>盡量用</b><span>ChatGPT、Claude、Gemini，查資料、找同學討論都可以。</span></div></div>
+<div class="ci"><div class="box">★</div><div><b>但最後要是「你的東西」</b><span>每句話都解釋得出來、消化後改寫，不要整段複製貼上。</span></div></div>
+<div class="ci"><div class="box">♡</div><div><b>不確定就誠實說</b><span>「這裡我還不太確定」完全 OK，甚至加分。</span></div></div>
+</div>
+</div>
+<div class="figwrap">
+<div class="bubble">我會生成，但「理解」要你自己來！</div>
+<img src="assets/dive_explain.png" alt="DIVE">
+<div class="who">DIVE</div>
+</div>
+</div>
+<div class="pageno">03</div>
+</section>
+
+<!-- P4 第1題 -->
+<section class="slide">
+<div class="tape b" style="top:24px;left:60px"></div>
+<div class="pad">
+<h2><span class="qn">1</span> 為什麼 AI 只是「呆萌型機器人」？</h2><div class="hand"></div>
+<div class="cards">
+<div class="card"><div class="sticker">學</div><h3>很會學樣子</h3><p>很會預測、很會生成，模仿力一流。</p></div>
+<div class="card"><div class="sticker">呆</div><h3>但它不是人</h3><p>沒有自己的生活經驗、目標，也沒有責任感。</p></div>
+<div class="card"><div class="sticker">萌</div><h3>可能說錯</h3><p>會給聰明的答案，也會一本正經地講錯。</p></div>
+</div>
+<div class="oneline">「呆萌」不是貶低——是提醒：看見它的厲害，也記得它的限制。</div>
+</div>
+<div class="pageno">04</div>
+</section>
+
+<!-- P5 第2題 函數 -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:88px"></div>
+<div class="pad">
+<h2><span class="qn">2</span> AI 在學函數，想讓呆一布學什麼？</h2><div class="hand"></div>
+<div class="note-dash"><div class="t">別被「函數」嚇到 🥤</div><p>函數就是「把輸入變成輸出的規則」。像販賣機：投錢＋按鈕（輸入）→ 掉出飲料（輸出）。你只要決定「輸入」和「輸出」，中間怎麼學交給呆一布——不用教他統計、也不用關鍵字分析。</p></div>
+<div class="flow">
+<div class="fbox">輸入 x</div><div class="farrow">→</div>
+<div class="fbox hi">呆一布</div><div class="farrow">→</div>
+<div class="fbox gd">輸出 y</div>
+</div>
+<div class="oneline">換你想：輸入是什麼？輸出是什麼？正確答案怎麼定義？要哪些資料？有什麼風險？</div>
+</div>
+<img class="corner-dive" src="assets/dive_explain.png" alt="DIVE">
+<div class="pageno">05</div>
+</section>
+
+<!-- P6 第3題 幻覺 -->
+<section class="slide">
+<div class="tape" style="top:22px;right:92px"></div>
+<div class="pad">
+<h2><span class="qn">3</span> 為什麼每次回答都是「幻覺」？</h2><div class="hand"></div>
+<div class="note-dash"><div class="t">LLM 在做什麼？</div><p>看著前面的文字，猜下一個字最可能是什麼——像手機輸入法選字、像文字接龍，只是強太多了。它不是先查到真相，而是「生成」一段接得下去的文字。</p></div>
+<div class="statement">所以：它的每一次回答，<br>都是一種 <span class="u">「幻覺」</span>。</div>
+<div class="oneline">「幻覺」不是罵它錯——創意和亂編是同一種能力，我們的工作是判斷「這次可不可靠」。</div>
+</div>
+<img class="corner-dive" src="assets/dive_wave.png" alt="DIVE">
+<div class="pageno">06</div>
+</section>
+
+<!-- P7 第4題 Agent -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:96px"></div>
+<div class="pad">
+<h2><span class="qn">4</span> AI Agent 是什麼？</h2><div class="hand"></div>
+<p style="color:#5f6d76;font-size:17px;line-height:1.7;max-width:860px;margin-bottom:8px">用「把我們做事的方法，教給 AI」的角度看——它不只是「你問一句、它答一段」，而是為了達成目標，自己一步步採取行動：</p>
+<div class="flow">
+<div class="fbox gd">目標</div><div class="farrow">→</div>
+<div class="fbox">拆解任務</div><div class="farrow">→</div>
+<div class="fbox">用工具</div><div class="farrow">→</div>
+<div class="fbox">看結果</div><div class="farrow">→</div>
+<div class="fbox hi">調整</div><div class="farrow">→</div>
+<div class="fbox">完成</div>
+</div>
+<div class="oneline">重點不是「AI 會不會自己動」，而是我們有沒有把好方法教給它。</div>
+</div>
+<img class="corner-dive" src="assets/dive_explain.png" alt="DIVE">
+<div class="pageno">07</div>
+</section>
+
+<!-- P8 第5題 領域專家（配角：老師） -->
+<section class="slide">
+<div class="tape b" style="top:24px;left:60px"></div>
+<div class="pad two-col">
+<div>
+<h2><span class="qn">5</span> 為什麼「懂這一行」才是關鍵？</h2><div class="hand"></div>
+<div class="check">
+<div class="ci"><div class="box">?</div><div><b>問題問得對不對</b><span>AI 不知道什麼才是真正值得解決的問題。</span></div></div>
+<div class="ci"><div class="box">▤</div><div><b>資料夠不夠、能不能用</b><span>哪些看起來合理、其實不對，要內行人分辨。</span></div></div>
+<div class="ci"><div class="box">!</div><div><b>哪些錯會出大事</b><span>模型做錯會傷到誰，只有懂這行的人知道。</span></div></div>
+</div>
+<div class="oneline" style="margin-top:20px">AI 不取代領域專家，而是<b style="color:var(--blue)">放大</b>他們的能力。</div>
+</div>
+<div class="figwrap">
+<div class="bubble">懂問題的人，才知道什麼答案不能用。</div>
+<img src="assets/teacher.png" alt="老師">
+<div class="who">領域專家・老師</div>
+</div>
+</div>
+<div class="pageno">08</div>
+</section>
+
+<!-- P9 第6題 Prompt（配角：同學） -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:90px"></div>
+<div class="pad two-col">
+<div>
+<h2><span class="qn">6</span> 和 AI 一起寫好一個 Prompt</h2><div class="hand"></div>
+<div class="steps6">
+<div class="s6"><div class="n">1</div><b>一開始的想法</b><span>我想做什麼？</span></div>
+<div class="s6"><div class="n">2</div><b>第一版 prompt</b><span>最初怎麼問？</span></div>
+<div class="s6"><div class="n">3</div><b>協作過程</b><span>接受／改掉了什麼？</span></div>
+<div class="s6"><div class="n">4</div><b>最後版本</b><span>最後怎麼下指令？</span></div>
+<div class="s6"><div class="n">5</div><b>為什麼更好</b><span>清楚在哪裡？</span></div>
+<div class="s6"><div class="n">6</div><b>測試結果</b><span>哪裡還想調？</span></div>
+</div>
+<div class="oneline" style="margin-top:20px">好 prompt 是<b style="color:var(--blue)">磨</b>出來的，不是一次就寫好的。</div>
+</div>
+<div class="figwrap">
+<div class="bubble">來回幾次，它就越來越懂我！</div>
+<img src="assets/student.png" alt="同學">
+<div class="who">共學同學・問問</div>
+</div>
+</div>
+<div class="pageno">09</div>
+</section>
+
+<!-- P10 結尾 -->
+<section class="slide">
+<div class="tape" style="top:24px;right:80px"></div><div class="tape b" style="top:20px;left:90px"></div>
+<div class="pad">
+<div class="endwrap">
+<span class="badge" style="align-self:center;margin:0 auto">最後一小題</span>
+<h1 style="margin-top:22px">寫下你<span class="u">最想弄懂</span>的一件事</h1>
+<p class="sub2">好問題，往往比漂亮的答案更珍貴——那正是共學的起點。</p>
+<div class="stamps"><span class="stamp">每題有例子 ✓</span><span class="stamp">附 prompt 紀錄 ✓</span><span class="stamp">300–600 字參考 ✓</span></div>
+<p class="sub2" style="margin-top:22px;font-family:var(--round);font-weight:800;color:var(--navy);font-size:22px">歡迎你，一起跳進來！</p>
+</div>
+</div>
+<img class="end-mascot" src="assets/dive_happy.png" alt="DIVE">
+<div class="pageno">10</div>
+</section>
+
+</div>
+<div class="nav"><button onclick="go(-1)">‹</button><div class="dots" id="dots"></div><button onclick="go(1)">›</button></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;const dots=document.getElementById('dots');
+slides.forEach((_,k)=>{const d=document.createElement('div');d.className='pg'+(k?'':' on');d.onclick=()=>set(k);dots.appendChild(d);});
+function set(n){i=(n+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===i));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));}
+function go(d){set(i+d);}
+addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1);});
+</script>
+</body></html>

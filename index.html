@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>呆一布 AI 共學實驗室・講義庫</title>
+<meta name="description" content="政大 呆一布 AI 共學實驗室（DiveAI）的 AI 講義與作業。">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+--cream:#FCF8F0;--paper:#FFFDF8;--sky:#8FCFE2;--sky-soft:#D6EEF6;--blue:#5FA8C4;
+--navy:#2E5C74;--blush:#F4B3BE;--blush-soft:#FCE1E6;--teal:#7CCBC9;--yellow:#F7E6A8;--ink:#41505A;
+--round:"M PLUS Rounded 1c","Noto Sans TC",sans-serif;--body:"Noto Sans TC","M PLUS Rounded 1c",sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);min-height:100vh;
+background:radial-gradient(circle,#E7DFCE 1.5px,transparent 1.6px) 0 0/26px 26px,var(--cream);
+line-height:1.7}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+/* header */
+header{padding:56px 0 20px;position:relative}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img{height:52px}
+.brand .txt b{display:block;font-family:var(--round);font-weight:800;color:var(--navy);font-size:21px;line-height:1.2}
+.brand .txt span{font-family:var(--round);font-weight:700;color:var(--blue);font-size:14px;letter-spacing:1px}
+.hero{margin-top:30px;display:grid;grid-template-columns:1fr 220px;gap:20px;align-items:center}
+.hero h1{font-family:var(--round);font-weight:800;color:var(--navy);font-size:44px;line-height:1.25}
+.hero h1 .u{background:linear-gradient(transparent 58%,var(--yellow) 58%);padding:0 6px}
+.hero p{margin-top:16px;font-size:18px;color:#5f6d76;max-width:560px}
+.hero .mascot{justify-self:center}
+.hero .mascot img{width:200px;filter:drop-shadow(0 14px 18px rgba(46,92,116,.16))}
+/* section title */
+.sec{margin-top:44px}
+.sec h2{font-family:var(--round);font-weight:800;color:var(--navy);font-size:26px;display:flex;align-items:center;gap:12px}
+.sec h2 .star{color:var(--blush)}
+.hand{width:110px;height:8px;margin:12px 0 26px;background:radial-gradient(circle,var(--blush) 40%,transparent 41%) 0 0/16px 8px repeat-x}
+/* lesson cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.card{position:relative;display:flex;flex-direction:column;background:var(--paper);border:3px solid var(--navy);
+border-radius:22px;padding:26px 24px 22px;box-shadow:6px 6px 0 rgba(46,92,116,.14);
+text-decoration:none;color:inherit;transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translate(-2px,-2px);box-shadow:9px 9px 0 rgba(46,92,116,.16)}
+.card .tape{position:absolute;top:-13px;left:26px;width:96px;height:26px;background:var(--sky);opacity:.6;border-radius:3px;transform:rotate(-4deg)}
+.card:nth-child(2n) .tape{background:var(--blush)}
+.card .no{align-self:flex-start;font-family:var(--round);font-weight:800;color:#fff;background:var(--blue);
+padding:5px 14px;border-radius:999px;font-size:13px;margin-bottom:14px}
+.card h3{font-family:var(--round);font-weight:800;color:var(--navy);font-size:23px;margin-bottom:8px}
+.card p{color:#5f6d76;font-size:15px;line-height:1.65;flex:1}
+.card .tags{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 16px}
+.card .tag{background:var(--sky-soft);border:2px solid var(--navy);color:var(--navy);font-family:var(--round);font-weight:700;font-size:12.5px;padding:5px 12px;border-radius:999px}
+.card .go{align-self:flex-start;font-family:var(--round);font-weight:800;color:var(--navy);font-size:16px;
+background:var(--yellow);border:3px solid var(--navy);border-radius:12px;padding:8px 20px;box-shadow:3px 3px 0 rgba(46,92,116,.14)}
+/* soon card */
+.card.soon{background:transparent;border-style:dashed;box-shadow:none;justify-content:center;align-items:center;text-align:center;color:#9aa7ae;min-height:190px}
+.card.soon:hover{transform:none;box-shadow:none}
+.card.soon .big{font-size:34px;margin-bottom:8px}
+.card.soon b{font-family:var(--round);color:#8aa0ab;font-size:18px}
+/* footer */
+footer{margin:56px 0 40px;padding-top:24px;border-top:2px dashed #d8cdb8;color:#8aa0ab;font-size:14px;
+display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer b{font-family:var(--round);color:var(--navy)}
+@media(max-width:640px){
+.hero{grid-template-columns:1fr}.hero .mascot{display:none}
+.hero h1{font-size:34px}header{padding-top:36px}
+}
+</style></head><body>
+<div class="wrap">
+
+<header>
+<div class="brand">
+<img src="assets/logo.png" alt="呆一布 AI">
+<div class="txt"><b>呆一布 AI 共學實驗室</b><span>DiveAI ・ Dive into AI</span></div>
+</div>
+<div class="hero">
+<div>
+<h1>一起<span class="u">跳進</span> AI，<br>當它的呆萌好夥伴。</h1>
+<p>這裡收錄實驗室給同學的 AI 講義與作業。每一份都可以直接在瀏覽器打開、翻頁閱讀——挑一份，開始吧！</p>
+</div>
+<div class="mascot"><img src="assets/dive.png" alt="DIVE"></div>
+</div>
+</header>
+
+<section class="sec">
+<h2><span class="star">✦</span> 講義庫</h2>
+<div class="hand"></div>
+<div class="grid">
+
+<a class="card" href="lessons/intro-assignment/">
+<span class="tape"></span>
+<span class="no">入門・作業</span>
+<h3>認識 AI：入門作業</h3>
+<p>用六個問題，把 AI 的核心觀念變成你自己的理解：呆萌機器人、函數、幻覺、AI Agent、領域專家，以及和 AI 一起寫好一個 Prompt。</p>
+<div class="tags"><span class="tag">10 頁簡報</span><span class="tag">手帳風</span><span class="tag">← → 翻頁</span></div>
+<span class="go">開始 →</span>
+</a>
+
+<div class="card soon">
+<div class="big">🐣</div>
+<b>更多講義，陸續加入中…</b>
+</div>
+
+</div>
+</section>
+
+<footer>
+<span>© 國立政治大學・呆一布 AI 共學實驗室（DiveAI）</span>
+<span>Dive into AI 🐳</span>
+</footer>
+
+</div>
+</body></html>
