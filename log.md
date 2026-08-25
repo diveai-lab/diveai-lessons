@@ -15,6 +15,12 @@
 
 ---
 
+## 2026-08-25 ｜ 慣例升級：投影片一律先寫「最終分頁 .md」才動手做
+- 改了什麼：CLAUDE.md 第四節從「內容先行（預設）」改為 **「內容先行（鐵則，不可略過）」**——以後做任何講義／簡報，**一定要先產出 `slide-notes/<slug>.md`（投影片上真正會出現的逐頁文字），才開始生成 HTML**。並明確區分兩份 .md：`ideas/<slug>.md` 是**設計稿**（每頁目的、互動怎麼帶、分鐘數，給帶課者看）、`slide-notes/<slug>.md` 是**最終分頁稿**（投影片實際文字，逐頁對應成品）。「直接做」只代表不停下來等討論，**稿還是要先寫**（同一輪寫完再生成）。第十節重點提醒同步改寫。
+- 同時做了：依成品 `lessons/intro-deeplearning/index.html` 逐頁回寫出 `slide-notes/intro-deeplearning.md`（23 頁：S1–S11 ＋ 中場休息頁 ＋ S12–S22），補齊這份講義缺的內容稿。S22 三枚章戳（課程連結／YouTube／免費工具）仍為佔位，已用 ✏️ 標記待補。
+- 為什麼 / 影響到哪些未來檔案：**推翻**先前「使用者說直接做就可略過階段一」的例外。日後每份講義三處齊全（`ideas/` → `slide-notes/` → `lessons/`）；要修改任何講義，一律先改 `slide-notes/<slug>.md` 再重新生成。若遇到成品已存在卻缺內容稿，先依成品逐頁回寫再改。
+- 誰：yenlung + Claude Cowork
+
 ## 2026-08-23 ｜ 第二份講義 intro-deeplearning 完成（完整 23 頁＋兩份學習單）
 - 改了什麼：`lessons/intro-deeplearning/`——《一起潛進 AI！》互動工作坊**完整版**（S1–S22＋中場，共 23 張，手帳風）＋兩份 A4 可列印學習單：`worksheet-softmax.pdf`（配 S10）、`worksheet-agent-rolecard.pdf`（配 S19 真人 Agent 班遊，含角色分配與工具呼叫記錄表）。逐頁規劃在 `ideas/intro-deeplearning.md`。已加進首頁 `index.html` 講義庫卡片。
 - 慣例：**可列印素材（學習單等）放進該講義資料夾**（`lessons/<slug>/worksheet-*.pdf`），跟簡報一起 self-contained。
