@@ -15,6 +15,23 @@
 
 ---
 
+## 2026-08-26 ｜ 新增 `ppt-final/`：人工在 Keynote 定稿的成品層（intro-deeplearning .key＋PDF）
+- 改了什麼：新增 `ppt-final/` 資料夾，放老師在 Keynote／PowerPoint 親手精修定稿後的最終檔（`.key` ＋匯出 `.pdf`），每份講義一個 `<slug>/` 子資料夾。首份：`ppt-final/intro-deeplearning/intro-deeplearning.key`、`…/intro-deeplearning.pdf`（原檔名為中文「呆一布。深度學習簡介.key／.pdf」，已依命名鐵則改英文 slug）。
+- 為什麼 / 影響到哪些未來檔案：`ppt/` 放 AI 用 python-pptx 生成、可再生成的 `.pptx`；`ppt-final/` 放**人手最後定稿、不由 AI 覆蓋**的成品，會一起上 GitHub。日後同一份講義最多可有四種形式：`lessons/`（網頁）、`ppt/`（生成 .pptx）、`ppt-final/`（人工定稿 .key＋PDF）。CLAUDE.md 第二、三節已同步。
+- 誰：yenlung + Claude Cowork
+
+## 2026-08-25 ｜ intro-deeplearning 出 PPT 版（`ppt/intro-deeplearning.pptx`，23 頁）
+- 改了什麼：依 `slide-notes/intro-deeplearning.md` 逐頁生成 PowerPoint 版《一起潛進 AI！》，23 頁（S1–S11＋中場＋S12–S22），套 A 海洋潛水風。素材沿用 `lessons/intro-deeplearning/assets/`（DIVE 六款表情、三位同學、logo）。同一份講義現在有網頁版（`lessons/intro-deeplearning/`）與 PPT 版（`ppt/intro-deeplearning.pptx`）兩種產物，內容同源於 `slide-notes/intro-deeplearning.md`。
+- 作法備忘：從 `ppt/diveai-ocean-template.pptx` 清空投影片當底，用 python-pptx 逐頁排版；封面／中場／S21／S22 用「標準空白」版面（要自己補頁尾文字，因為該版面的頁尾是 idx21 佔位），其餘用「標準只帶標題」。頁碼佔位加寬到 0.9″ 才放得下兩位數。任務徽章（🙋 全班搶答／👥 小組討論等）要放在標題條下緣 2.82″ 之後才不會被壓到。
+- 為什麼 / 影響到哪些未來檔案：**同一份稿可以同時出網頁版與 PPT 版**——日後修改一律回 `slide-notes/<slug>.md`，兩邊各自重新生成。
+- 誰：yenlung + Claude Cowork
+
+## 2026-08-25 ｜ 新增第三種產物 PPT（.pptx）；定案 A 海洋潛水風＋擴充色票；產出 diveai-pptx skill
+- 改了什麼：新增 `ppt/` 與 `reference/`。以老師既有的 `reference/投影片範本.pptx` 為骨架（26.67″×15″、11 個版面配置、藍色圓角標題條＋DIVE 頭像＋頁尾品牌帶），只換配色與字型做出三款提案，**定案 A 海洋潛水風**：標題字 `Noto Sans TC Bold`、內文字 `Yuanti TC Bold`，背景 `#F4FAFC`、標題條 `#8FCFE2`、頁尾帶 `#5FA8C4`、藥丸 `#2E5C74`。定案檔 `ppt/diveai-ocean-template.pptx`（第 4 頁是「色票」頁，可現場滴管取色）。備援 `style-b-cream-note.pptx`（奶油手帳）、`style-c-mint-clean.pptx`（薄荷清爽）。
+- 色票擴充：除基礎色外訂了 **8 組卡片色**（天藍／湖水綠／腮紅粉／暖黃／薰衣草／珊瑚橘／抹茶綠／霧灰藍，各含框線色＋底色）、狀態色（alert `#E2725C`／ok `#6FB98F`／hint `#E8C46A`）、圖表色序與「哪些底色可以放白字」清單，全部寫進 `diveai-pptx` skill 的 `references/palette.md`。
+- 為什麼 / 影響到哪些未來檔案：**產物從兩種變三種**（A 互動學習頁／B 翻頁網頁簡報／C PowerPoint 檔）。日後做 .pptx 一律走 `diveai-pptx` skill：從 `ppt/diveai-ocean-template.pptx` 複製、成品放 `ppt/<slug>.pptx`、選色只從 palette.md 挑不自創色。內容先行鐵則同樣適用（先 `slide-notes/<slug>.md` 再生成）。CLAUDE.md 第二、三、六、十節與待辦已同步更新。
+- 誰：yenlung + Claude Cowork
+
 ## 2026-08-25 ｜ 慣例升級：投影片一律先寫「最終分頁 .md」才動手做
 - 改了什麼：CLAUDE.md 第四節從「內容先行（預設）」改為 **「內容先行（鐵則，不可略過）」**——以後做任何講義／簡報，**一定要先產出 `slide-notes/<slug>.md`（投影片上真正會出現的逐頁文字），才開始生成 HTML**。並明確區分兩份 .md：`ideas/<slug>.md` 是**設計稿**（每頁目的、互動怎麼帶、分鐘數，給帶課者看）、`slide-notes/<slug>.md` 是**最終分頁稿**（投影片實際文字，逐頁對應成品）。「直接做」只代表不停下來等討論，**稿還是要先寫**（同一輪寫完再生成）。第十節重點提醒同步改寫。
 - 同時做了：依成品 `lessons/intro-deeplearning/index.html` 逐頁回寫出 `slide-notes/intro-deeplearning.md`（23 頁：S1–S11 ＋ 中場休息頁 ＋ S12–S22），補齊這份講義缺的內容稿。S22 三枚章戳（課程連結／YouTube／免費工具）仍為佔位，已用 ✏️ 標記待補。

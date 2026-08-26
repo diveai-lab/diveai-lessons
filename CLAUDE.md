@@ -34,7 +34,15 @@
 - 直接沿用 `diveai-slides` skill 的三款風格與骨架（見下）。
 - 何時用：課堂講述、對外介紹、工作坊開場。
 
-> 兩種都用 DiveAI 品牌色票、字體、吉祥物素材；差別在**版型與互動**：A 是可捲動可操作的學習頁，B 是固定 16:9 翻頁。
+### C. PowerPoint 檔（`.pptx`）
+老師要**在 PowerPoint／Keynote 裡自己改**、投影機播放的簡報檔。
+- 一律從 `ppt/diveai-ocean-template.pptx` 長出來（骨架＝`reference/投影片範本.pptx`），成品放 `ppt/<slug>.pptx`。
+- 作法與色票見 `diveai-pptx` skill。
+- 何時用：要交給別人接手編輯、要離線播放、要沿用既有 PPT 教材時。
+
+> 三種都用 DiveAI 品牌色票、字體、吉祥物素材；差別在**版型與互動**：A 是可捲動可操作的學習頁，B 是固定 16:9 翻頁網頁，C 是可編輯的 PowerPoint 檔。
+
+**人工定稿成品放 `ppt-final/`**：以上 A／B／C 是「可再生成」的產物；老師在 Keynote／PowerPoint 裡**親手精修定稿**後的最終檔（`.key` 與匯出的 `.pdf`）另存在 `ppt-final/<slug>/`，檔名用英文 slug。這是「人手最後定稿、要一起上 GitHub」的成品層，**AI 不自動覆蓋**。相對地 `ppt/<slug>.pptx` 是 AI 用 diveai-pptx 生成、可再重跑的版本。
 
 ---
 
@@ -54,6 +62,9 @@
 ├── shared-assets/        ← 共用素材庫（吉祥物、logo、人物貼圖）※製作時複製到各講義，勿直接改原檔
 ├── ideas/                ← 想法／學生版內容（.md），檔名用英文 slug（如 intro-assignment.md）
 ├── slide-notes/          ← 逐頁內容稿（.md），檔名用英文 slug
+├── reference/           ← 外來參考檔（老師既有的投影片範本等），只讀不改
+├── ppt/                 ← PowerPoint 成品與範本：diveai-ocean-template.pptx ＋各講義 <slug>.pptx
+├── ppt-final/           ← 人工定稿成品：老師在 Keynote 精修後的 .key ＋匯出 PDF（每份講義一個 <slug>/ 子資料夾）
 └── lessons/              ← 實際成品（HTML）：每份講義一個英文 slug 子資料夾
     └── <english-slug>/       如 intro-assignment/
         ├── index.html
@@ -123,7 +134,9 @@
 - **B 卡片清爽風**：頂部品牌帶＋白色資訊卡＋卡片左側彩色條。用於計畫書、資料密度高的正式簡報、對評審。
 - **C 手帳貼紙風**：點點方格紙＋紙膠帶＋虛線便利貼＋對話框＋貼紙徽章＋螢光筆底線。用於工作坊、教學、學生作業、科普。
 
-> **★ 專案預設模版：C 手帳貼紙風。** 沒有特別指定時，講義／簡報一律用 C。A、B 保留給對外形象與正式計畫型簡報，需要時再指定。
+**PPT（`.pptx`）另有一套預設**：**A 海洋潛水風**——標題字 `Noto Sans TC Bold`、內文字 `Yuanti TC Bold`，背景 `#F4FAFC`、標題條 `#8FCFE2`、頁尾帶 `#5FA8C4`、標籤藥丸 `#2E5C74`。完整色票（8 組卡片色、狀態色、圖表色序）在 `diveai-pptx` skill 的 `references/palette.md`；備援有 B 奶油手帳風、C 薄荷清爽風。網頁講義維持下面的預設。
+
+> **★ 網頁講義預設模版：C 手帳貼紙風。** 沒有特別指定時，講義／簡報一律用 C。A、B 保留給對外形象與正式計畫型簡報，需要時再指定。
 
 **每張投影片固定用到的人物**：DIVE 表情版（`dive_wave` 揮手＝標題、`dive_explain` 解說＝內頁、`dive_happy` 開心＝結尾）為主；配角可換其他人物（老師、同學），用「對話框＋名牌」帶出，示範不一定都是 DIVE。
 
@@ -159,7 +172,7 @@
 
 ## 十、給 AI 的重點提醒
 
-1. **先讀 CLAUDE.md 與 log.md**，再動工。動工前先確認要做 A 互動頁 還是 B 翻頁簡報。
+1. **先讀 CLAUDE.md 與 log.md**，再動工。動工前先確認要做 A 互動頁、B 翻頁簡報 還是 C PowerPoint 檔（`.pptx` 走 `diveai-pptx` skill）。
 2. **內容先行（鐵則）**：一定先有 `slide-notes/<slug>.md` 的逐頁最終文字，才生成 HTML；說「直接做」也只是不等討論，稿還是要先寫。`ideas/` 是設計稿、`slide-notes/` 是投影片實際文字，兩者不可混用。
 3. **色票、字體勿改**；中文全形標點。
 4. **每份講義 self-contained**：素材 copy 進自己的 `assets/`，相對路徑引用，拿不到就留空不破圖。
@@ -171,5 +184,6 @@
 
 ## 待辦 / 觀察
 
-- 已重組為 GitHub Pages 結構（英文路徑、首頁目錄、`.nojekyll`）。repo 掛在 org `diveai-lab`，尚待建立 repo 並開 Pages。
+- repo 已建立：`https://github.com/diveai-lab/diveai-lessons`。GitHub Pages 待開（Settings → Pages，來源 `main` 根目錄）。
+- `ppt/` 另有兩款備援風格 `style-b-cream-note.pptx`、`style-c-mint-clean.pptx`，確認不需要後可刪。
 - `_to_delete/`（舊 AGENT.md、compare.html）確認無誤後可整個刪掉；已加入 `.gitignore` 不會上傳。
