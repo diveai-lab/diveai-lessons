@@ -15,6 +15,11 @@
 
 ---
 
+## 2026-08-26 ｜ 新增第十節「Git 與多機協作」:git 只從 iMac、多機靠 Dropbox 同步檔案
+- 改了什麼:CLAUDE.md 新增第十節,明訂版本控制工作流程(模式 A)——`.git` 已用 `xattr com.dropbox.ignored` 排除 Dropbox 同步、只留 iMac;講義檔可多台電腦編輯(靠 Dropbox 同步),但 commit/push/pull 一律回 iMac 做。原第十節「給 AI 的重點提醒」順移為第十一節,並補第 8 點。
+- 為什麼 / 影響:先前 `.git` 放 Dropbox 同步,部分同步弄丟 commit 物件(出現 `bad object HEAD`)。分工後避免重演,也釐清多機協作鐵則(別在其他電腦的 Dropbox 資料夾裡開第二個 `.git`)。
+- 誰:yenlung + Claude Cowork
+
 ## 2026-08-26 ｜ 新增 `ppt-final/`：人工在 Keynote 定稿的成品層（intro-deeplearning .key＋PDF）
 - 改了什麼：新增 `ppt-final/` 資料夾，放老師在 Keynote／PowerPoint 親手精修定稿後的最終檔（`.key` ＋匯出 `.pdf`），每份講義一個 `<slug>/` 子資料夾。首份：`ppt-final/intro-deeplearning/intro-deeplearning.key`、`…/intro-deeplearning.pdf`（原檔名為中文「呆一布。深度學習簡介.key／.pdf」，已依命名鐵則改英文 slug）。
 - 為什麼 / 影響到哪些未來檔案：`ppt/` 放 AI 用 python-pptx 生成、可再生成的 `.pptx`；`ppt-final/` 放**人手最後定稿、不由 AI 覆蓋**的成品，會一起上 GitHub。日後同一份講義最多可有四種形式：`lessons/`（網頁）、`ppt/`（生成 .pptx）、`ppt-final/`（人工定稿 .key＋PDF）。CLAUDE.md 第二、三節已同步。

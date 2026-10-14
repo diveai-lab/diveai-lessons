@@ -170,7 +170,41 @@
 
 ---
 
-## 十、給 AI 的重點提醒
+## 十、Git 與多機協作（版本控制工作流程）
+
+> **⚠️ 鐵則:這個專案的 git 操作(commit / push / pull)只在「iMac」這一台做。** 專案檔案本身可以在多台電腦上編輯,沒問題——多機之間靠 Dropbox 同步檔案;但版本控制(`.git`)只認 iMac。
+
+**為什麼這樣分工**:這個資料夾同時被 Dropbox 同步、也是 git repo。若讓 Dropbox 去同步 `.git`,Dropbox 的部分同步會弄壞 git 物件(2026-08-26 就發生過 commit 物件遺失、`bad object HEAD`)。所以 `.git` 已用 `xattr -w com.dropbox.ignored 1 .git` 排除 Dropbox 同步、只留在 iMac 本機;git 歷史改用 **GitHub** 當同步與備份。
+
+**日常怎麼跑(模式 A)**:
+- **編輯講義**:任何一台電腦都可以,Dropbox 會自動把改動同步到各台(含 iMac)。
+- **要上 GitHub**:回 **iMac**,先確認選單列 Dropbox 圖示是「已同步」(別台的最新改動都下來了),再執行:
+
+  ```bash
+  cd "/Volumes/iMac eHD/Dropbox/Claude Cowork/呆一布講義"
+  git pull            # 先拉遠端(單機通常是 Already up to date)
+  git add -A
+  git commit -m "說明這次改了什麼"
+  git push origin main
+  ```
+
+  (commit 一定要在 push 之前;push 只送出「已經 commit」的東西。)
+
+**不可以做的事**:
+- ❌ 不要在**其他電腦**的這個 Dropbox 資料夾裡 `git init`、或弄出第二個 `.git`。兩個 `.git` 壓在同一批被 Dropbox 同步的檔案上,會互相打架又損壞。
+- ❌ 不要把 `.git` 放回 Dropbox 同步(別去 `xattr -d`)。
+- 若哪天砍掉 `.git` 重新 `git clone`,新的 `.git` 要再設一次 `xattr -w com.dropbox.ignored 1 .git`。
+
+**遇到問題**:
+- `git fetch/push` 報 `early EOF` / `transfer closed`＝**網路**(校園／VPN／proxy)中途被切,不是 git 壞了 → 換手機熱點重試。
+- 憑證:iMac 已用 gh／Personal Access Token 設好 HTTPS,之後不用再輸帳密。
+- 遠端:`https://github.com/diveai-lab/diveai-lessons.git`(branch `main`)。
+
+> 給 AI(Cowork／device_bash):這邊只做「檔案改動」,不做 git——它的掛載無法清 git lock、也沒有 push 憑證。需要 commit/push 時,把指令交給使用者在 iMac 執行。
+
+---
+
+## 十一、給 AI 的重點提醒
 
 1. **先讀 CLAUDE.md 與 log.md**，再動工。動工前先確認要做 A 互動頁、B 翻頁簡報 還是 C PowerPoint 檔（`.pptx` 走 `diveai-pptx` skill）。
 2. **內容先行（鐵則）**：一定先有 `slide-notes/<slug>.md` 的逐頁最終文字，才生成 HTML；說「直接做」也只是不等討論，稿還是要先寫。`ideas/` 是設計稿、`slide-notes/` 是投影片實際文字，兩者不可混用。
@@ -179,6 +213,7 @@
 5. **不要直接改 `shared-assets/` 原檔**（那是共用來源庫）。
 6. **檔名／資料夾一律英文 slug**（GitHub Pages 網址友善）；新講義記得加進首頁 `index.html`。
 7. 有影響未來的改動 → 記進 `log.md`。
+8. **Git 只從 iMac 操作**(見第十節「Git 與多機協作」):檔案可多機編輯、靠 Dropbox 同步;但 commit/push/pull 一律在 iMac。Cowork／AI 只改檔案不做 git,需要時把指令交給使用者在 iMac 跑。
 
 ---
 
