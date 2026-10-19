@@ -1,8 +1,9 @@
 # CLAUDE.md — 呆一布 AI 共學實驗室・講義專案指引
 
 > 這份檔案（`CLAUDE.md`）是給 AI（Claude Cowork）與人類協作者看的「專案憲法」。
-> 動手做任何事之前，先讀這份，再讀 `log.md`（近期會影響決策的變更）。
-> 有任何慣例改變，請同步更新這份與 `log.md`。
+> 動手做任何事之前，先讀這份，再讀 `NOTES.md`（目前進度、下次從哪開始、待辦）與 `log.md`（近期會影響決策的變更）。
+> 有任何慣例改變，請同步更新這份與 `log.md`；**每次工作結束前更新 `NOTES.md`**。
+> 換新電腦接手 → 先照 `SETUP.md` 做一次。
 
 ---
 
@@ -57,7 +58,9 @@
 ├── .nojekyll             ← 讓 GitHub Pages 不跑 Jekyll（純靜態站必備）
 ├── .gitignore            ← 忽略 .DS_Store、_to_delete/ 等
 ├── CLAUDE.md             ← 本檔（專案指引）
-├── log.md                ← 變更紀錄
+├── log.md                ← 變更紀錄（會改變未來的決策，只增不刪）
+├── NOTES.md              ← 目前進度、下次從哪開始、待辦（隨時改寫）
+├── SETUP.md              ← 新電腦接手清單
 ├── assets/               ← 首頁用的圖（logo.png、dive.png）
 ├── shared-assets/        ← 共用素材庫（吉祥物、logo、人物貼圖）※製作時複製到各講義，勿直接改原檔
 ├── ideas/                ← 想法／學生版內容（.md），檔名用英文 slug（如 intro-assignment.md）
@@ -164,7 +167,13 @@
 
 ---
 
-## 九、log.md 的用途
+## 九、log.md 與 NOTES.md 的分工
+
+- `NOTES.md`＝**現況白板**：目前狀態、下次從這裡開始、待辦、尚未定案的事。隨時改寫、保持短，做完的刪掉。**每次工作結束前都要更新**——「上次說要改的」一定要寫進這裡，不能只留在對話裡（換電腦、開新對話都看不到對話內容）。
+- `log.md`＝**決策歷史**：只記會改變未來檔案的變更，只增不刪。
+- 某件事變成「以後都要這樣」→ 寫進 `CLAUDE.md` 並記一筆 `log.md`，再從 `NOTES.md` 拿掉。
+
+以下是 `log.md` 的細節：
 
 `log.md` 記錄**「會改變未來檔案」的變更或決策**——例如：改了品牌色、換了資料夾慣例、定了某個新元件規格、清理/整併素材、某份講義定稿。目的是讓下一次（不管是人還是 AI）接手時，知道現在的規則跟當初可能不一樣。格式見 `log.md` 開頭。
 
@@ -206,7 +215,7 @@
 
 ## 十一、給 AI 的重點提醒
 
-1. **先讀 CLAUDE.md 與 log.md**，再動工。動工前先確認要做 A 互動頁、B 翻頁簡報 還是 C PowerPoint 檔（`.pptx` 走 `diveai-pptx` skill）。
+1. **先讀 CLAUDE.md、NOTES.md 與 log.md**，再動工。動工前先確認要做 A 互動頁、B 翻頁簡報 還是 C PowerPoint 檔（`.pptx` 走 `diveai-pptx` skill）。
 2. **內容先行（鐵則）**：一定先有 `slide-notes/<slug>.md` 的逐頁最終文字，才生成 HTML；說「直接做」也只是不等討論，稿還是要先寫。`ideas/` 是設計稿、`slide-notes/` 是投影片實際文字，兩者不可混用。
 3. **色票、字體勿改**；中文全形標點。
 4. **每份講義 self-contained**：素材 copy 進自己的 `assets/`，相對路徑引用，拿不到就留空不破圖。
@@ -214,11 +223,10 @@
 6. **檔名／資料夾一律英文 slug**（GitHub Pages 網址友善）；新講義記得加進首頁 `index.html`。
 7. 有影響未來的改動 → 記進 `log.md`。
 8. **Git 只從 iMac 操作**(見第十節「Git 與多機協作」):檔案可多機編輯、靠 Dropbox 同步;但 commit/push/pull 一律在 iMac。Cowork／AI 只改檔案不做 git,需要時把指令交給使用者在 iMac 跑。
+9. **收尾一定更新 `NOTES.md`**（做到哪、下次從哪開始、新待辦）。使用者在對話中說「之後要改」「下次記得」的事，當場寫進 `NOTES.md` 的待辦。
 
 ---
 
 ## 待辦 / 觀察
 
-- repo 已建立：`https://github.com/diveai-lab/diveai-lessons`。GitHub Pages 待開（Settings → Pages，來源 `main` 根目錄）。
-- `ppt/` 另有兩款備援風格 `style-b-cream-note.pptx`、`style-c-mint-clean.pptx`，確認不需要後可刪。
-- `_to_delete/`（舊 AGENT.md、compare.html）確認無誤後可整個刪掉；已加入 `.gitignore` 不會上傳。
+已移到 `NOTES.md`（2026-10-19）。

@@ -15,6 +15,11 @@
 
 ---
 
+## 2026-10-19 ｜ 新增 NOTES.md（現況與待辦）與 SETUP.md（新電腦接手清單）
+- 改了什麼：新增 `NOTES.md`——目前狀態、下次從這裡開始、待辦、尚未定案，每次工作結束前更新；新增 `SETUP.md`——新電腦接手清單（Dropbox 可離線使用、其他電腦不碰 git、Claude 版本與 skills 對齊、字型（Yuanti TC 僅 macOS）、Windows 常開主機設定、第一次對話的暖身確認）。`CLAUDE.md` 開頭閱讀順序改為 CLAUDE.md → NOTES.md → log.md，第三節結構圖加入兩檔，第九節改為「log.md 與 NOTES.md 的分工」，第十一節加第 9 點（收尾更新 NOTES.md），原「待辦／觀察」搬進 `NOTES.md`。
+- 為什麼 / 影響到哪些未來檔案：多台電腦（iMac、Windows 常開主機等）做同一專案時，「上次說要改的」常只留在對話裡而遺失。現在規則放 `CLAUDE.md`、決策放 `log.md`、現況與待辦放 `NOTES.md`，都在 Dropbox 同步的專案裡，每台電腦、每個對話都看得到。
+- 誰：yenlung + Claude Cowork
+
 ## 2026-08-26 ｜ 新增第十節「Git 與多機協作」:git 只從 iMac、多機靠 Dropbox 同步檔案
 - 改了什麼:CLAUDE.md 新增第十節,明訂版本控制工作流程(模式 A)——`.git` 已用 `xattr com.dropbox.ignored` 排除 Dropbox 同步、只留 iMac;講義檔可多台電腦編輯(靠 Dropbox 同步),但 commit/push/pull 一律回 iMac 做。原第十節「給 AI 的重點提醒」順移為第十一節,並補第 8 點。
 - 為什麼 / 影響:先前 `.git` 放 Dropbox 同步,部分同步弄丟 commit 物件(出現 `bad object HEAD`)。分工後避免重演,也釐清多機協作鐵則(別在其他電腦的 Dropbox 資料夾裡開第二個 `.git`)。
