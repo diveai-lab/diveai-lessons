@@ -181,35 +181,27 @@
 
 ## 十、Git 與多機協作（版本控制工作流程）
 
-> **⚠️ 鐵則:這個專案的 git 操作(commit / push / pull)只在「iMac」這一台做。** 專案檔案本身可以在多台電腦上編輯,沒問題——多機之間靠 Dropbox 同步檔案;但版本控制(`.git`)只認 iMac。
+> **⚠️ 鐵則：git 一律由「雲端 Claude」代為 commit / push。任何一台電腦的這個 Dropbox 資料夾裡都不放 `.git`。**（2026-10-31 起；之前是「只在 iMac 做 git」，已停用。）
 
-**為什麼這樣分工**:這個資料夾同時被 Dropbox 同步、也是 git repo。若讓 Dropbox 去同步 `.git`,Dropbox 的部分同步會弄壞 git 物件(2026-08-26 就發生過 commit 物件遺失、`bad object HEAD`)。所以 `.git` 已用 `xattr -w com.dropbox.ignored 1 .git` 排除 Dropbox 同步、只留在 iMac 本機;git 歷史改用 **GitHub** 當同步與備份。
+**為什麼這樣分工**：這個資料夾被 Dropbox 同步。若資料夾裡有 `.git`，Dropbox 的部分同步會弄壞 git 物件（2026-08-26 發生過 commit 物件遺失、`bad object HEAD`）。現在 Dropbox 只負責同步「講義檔」，版本歷史只放在 **GitHub**；commit / push 由雲端 Claude 透過 **Claude GitHub App**（已裝在 `diveai-lab` 組織）完成，不需要任何一台電腦有 git 或憑證。
 
-**日常怎麼跑(模式 A)**:
-- **編輯講義**:任何一台電腦都可以,Dropbox 會自動把改動同步到各台(含 iMac)。
-- **要上 GitHub**:回 **iMac**,先確認選單列 Dropbox 圖示是「已同步」(別台的最新改動都下來了),再執行:
+**日常怎麼跑**：
+- **編輯講義**：任何一台電腦都可以，Dropbox 自動同步。
+- **要上 GitHub**：在任何裝置（電腦、手機）的 Claude 對話裡說「push」。Claude 會：
+  1. 透過連結的電腦（通常是 Windows 常開主機 diveai-pc）讀這個 Dropbox 資料夾；
+  2. 在雲端 clone `diveai-lab/diveai-lessons`，逐檔比對**新增／修改／刪除**；
+  3. 列出差異與擬好的 commit 訊息，確認後 commit 並 push 到 `main`。
+- push 前先確認 Dropbox 圖示是「已同步」（剛在別台改的檔案已經同步到連結的那台電腦）。
 
-  ```bash
-  cd "/Volumes/iMac eHD/Dropbox/Claude Cowork/呆一布講義"
-  git pull            # 先拉遠端(單機通常是 Already up to date)
-  git add -A
-  git commit -m "說明這次改了什麼"
-  git push origin main
-  ```
+**不可以做的事**：
+- ❌ 不要在任何電腦的這個 Dropbox 資料夾裡 `git init` / `git clone`，也不要再從 iMac 手動 push（只留一個 push 來源，避免兩邊各自 commit 衝突）。
+- ❌ 單一檔案不要超過 100MB（GitHub 上限）；`ppt-final/` 的大檔要留意。
 
-  (commit 一定要在 push 之前;push 只送出「已經 commit」的東西。)
+**其他**：
+- 遠端：`https://github.com/diveai-lab/diveai-lessons`（branch `main`）。
+- 若雲端 push 被拒：多半是 Claude GitHub App 對 `diveai-lab` 的授權失效，到 GitHub 組織設定或 claude.ai 的 Connectors 重新連結。
 
-**不可以做的事**:
-- ❌ 不要在**其他電腦**的這個 Dropbox 資料夾裡 `git init`、或弄出第二個 `.git`。兩個 `.git` 壓在同一批被 Dropbox 同步的檔案上,會互相打架又損壞。
-- ❌ 不要把 `.git` 放回 Dropbox 同步(別去 `xattr -d`)。
-- 若哪天砍掉 `.git` 重新 `git clone`,新的 `.git` 要再設一次 `xattr -w com.dropbox.ignored 1 .git`。
-
-**遇到問題**:
-- `git fetch/push` 報 `early EOF` / `transfer closed`＝**網路**(校園／VPN／proxy)中途被切,不是 git 壞了 → 換手機熱點重試。
-- 憑證:iMac 已用 gh／Personal Access Token 設好 HTTPS,之後不用再輸帳密。
-- 遠端:`https://github.com/diveai-lab/diveai-lessons.git`(branch `main`)。
-
-> 給 AI(Cowork／device_bash):這邊只做「檔案改動」,不做 git——它的掛載無法清 git lock、也沒有 push 憑證。需要 commit/push 時,把指令交給使用者在 iMac 執行。
+> 給 AI：檔案改動直接改在 Dropbox 資料夾（透過連結的電腦）；git 一律在雲端工作區做，不在使用者電腦上跑 git。commit 訊息用中文說明改了什麼。
 
 ---
 
@@ -222,7 +214,7 @@
 5. **不要直接改 `shared-assets/` 原檔**（那是共用來源庫）。
 6. **檔名／資料夾一律英文 slug**（GitHub Pages 網址友善）；新講義記得加進首頁 `index.html`。
 7. 有影響未來的改動 → 記進 `log.md`。
-8. **Git 只從 iMac 操作**(見第十節「Git 與多機協作」):檔案可多機編輯、靠 Dropbox 同步;但 commit/push/pull 一律在 iMac。Cowork／AI 只改檔案不做 git,需要時把指令交給使用者在 iMac 跑。
+8. **Git 由雲端 Claude 代為 commit / push**（見第十節）：電腦上的 Dropbox 資料夾不放 `.git`；使用者說「push」時，Claude 比對資料夾與 GitHub 後 commit 並 push 到 `main`。
 9. **收尾一定更新 `NOTES.md`**（做到哪、下次從哪開始、新待辦）。使用者在對話中說「之後要改」「下次記得」的事，當場寫進 `NOTES.md` 的待辦。
 
 ---

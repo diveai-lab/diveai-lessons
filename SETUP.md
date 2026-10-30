@@ -17,14 +17,14 @@
 | 電腦 | 專案路徑 |
 |---|---|
 | iMac | `/Volumes/iMac eHD/Dropbox/Claude Cowork/呆一布講義` |
-| Windows 主機 | `C:\Users\<使用者>\Dropbox\Claude Cowork\呆一布講義`（Git Bash：`/c/Users/<使用者>/Dropbox/Claude Cowork/呆一布講義`） |
+| Windows 主機（diveai-pc） | `C:\Users\yenlu\Dropbox\Claude Cowork\呆一布講義`（Git Bash：`/c/Users/yenlu/Dropbox/Claude Cowork/呆一布講義`） |
 | 其他電腦 | 填在這裡：`…` |
 
-## 二、Git：其他電腦「什麼都不要做」
+## 二、Git：每台電腦都「什麼都不要做」
 
-- `.git` 只存在 iMac，已排除 Dropbox 同步，所以**其他電腦的這個資料夾裡本來就沒有 `.git`，這是正常的**。
-- ❌ 不要在其他電腦這個資料夾裡 `git init` 或 `git clone`。
-- 要 commit / push 時，回 iMac 做（細節見 `CLAUDE.md` 第十節）。
+- 這個資料夾裡**不放 `.git`**，每台電腦都一樣（包括 iMac）。版本歷史只在 GitHub。
+- ❌ 不要在這個資料夾裡 `git init` 或 `git clone`，也不用在電腦上設 GitHub 憑證。
+- 要 commit / push 時，在 Claude 對話裡說「push」，由雲端 Claude 代為處理（細節見 `CLAUDE.md` 第十節）。
 
 ## 三、安裝 Claude 並對齊
 

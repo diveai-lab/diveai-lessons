@@ -7,7 +7,7 @@
 >
 > 對 Claude 說「更新 NOTES.md」時：改寫「目前狀態」「下次從這裡開始」、勾掉／刪掉完成的待辦、加上新待辦。若有新的長期規則，另外寫進 `CLAUDE.md` 與 `log.md`，不要只留在這裡。
 
-最後更新：2026-10-19（Claude Cowork）
+最後更新：2026-10-31（Claude）
 
 ---
 
@@ -20,6 +20,7 @@
 
 - 2026-10-13～14：修改了 `intro-assignment`（網頁版與內容稿），已在 iMac commit（`b1afe64 修改第一份簡報`）。
 - 2026-10-19：新增 `SETUP.md`（新電腦接手清單）與本檔 `NOTES.md`；原本 `CLAUDE.md` 最後的「待辦／觀察」搬到這裡。
+- 2026-10-31：git 改由雲端 Claude 代為 push（見 `CLAUDE.md` 第十節）。
 
 ## 下次從這裡開始
 
@@ -32,8 +33,7 @@
 - [ ] `intro-deeplearning` 內容稿 S22 三枚章戳（課程連結／YouTube／免費工具）仍是佔位 ✏️。
 - [ ] `ppt/` 的備援風格 `style-b-cream-note.pptx`、`style-c-mint-clean.pptx`（以及 `style-a-ocean-dive.pptx`）確認不需要後可刪。
 - [ ] `_to_delete/`（舊 AGENT.md、compare.html）確認無誤後整個刪掉（已在 `.gitignore`）。
-- [ ] 本次新增的 `SETUP.md`、`NOTES.md` 及 `CLAUDE.md`／`log.md` 改動，回 iMac commit / push。
-- [ ] `SETUP.md` 表格裡補上 Windows 主機的實際使用者路徑。
+- [ ] 手動刪除 Windows 資料夾裡殘留的 `.git`（只剩 2026-08 的幾個 object，不是有效 repo）與 `_to_delete/`。
 
 ## 尚未定案／要問的事
 

@@ -15,6 +15,11 @@
 
 ---
 
+## 2026-10-31 ｜ Git 改由雲端 Claude 代為 commit / push；所有電腦的資料夾都不放 `.git`
+- 改了什麼：`CLAUDE.md` 第十節與第十一節第 8 點改寫——原「git 只在 iMac 做」停用；改為在任何裝置的 Claude 對話說「push」，由雲端 Claude（透過裝在 `diveai-lab` 的 Claude GitHub App）比對 Dropbox 資料夾與 GitHub 後 commit / push 到 `main`。`SETUP.md` 第二節同步改寫，並補上 Windows 主機路徑。
+- 為什麼 / 影響到哪些未來檔案：iMac 上的 `.git` 已不見（「不是 git repo」），且想讓任何一台電腦（含手機）都能上 GitHub、不必回特定機器下指令。資料夾不放 `.git` 也徹底避開 Dropbox 同步弄壞 git 物件的問題。之後不要再在任何電腦上手動 git。
+- 誰：yenlung + Claude
+
 ## 2026-10-19 ｜ 新增 NOTES.md（現況與待辦）與 SETUP.md（新電腦接手清單）
 - 改了什麼：新增 `NOTES.md`——目前狀態、下次從這裡開始、待辦、尚未定案，每次工作結束前更新；新增 `SETUP.md`——新電腦接手清單（Dropbox 可離線使用、其他電腦不碰 git、Claude 版本與 skills 對齊、字型（Yuanti TC 僅 macOS）、Windows 常開主機設定、第一次對話的暖身確認）。`CLAUDE.md` 開頭閱讀順序改為 CLAUDE.md → NOTES.md → log.md，第三節結構圖加入兩檔，第九節改為「log.md 與 NOTES.md 的分工」，第十一節加第 9 點（收尾更新 NOTES.md），原「待辦／觀察」搬進 `NOTES.md`。
 - 為什麼 / 影響到哪些未來檔案：多台電腦（iMac、Windows 常開主機等）做同一專案時，「上次說要改的」常只留在對話裡而遺失。現在規則放 `CLAUDE.md`、決策放 `log.md`、現況與待辦放 `NOTES.md`，都在 Dropbox 同步的專案裡，每台電腦、每個對話都看得到。
