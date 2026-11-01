@@ -1,0 +1,856 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>換你當老闆！Agentic Work 與 AI 工作現場</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+--cream:#FCF8F0;--paper:#FFFDF8;--sky:#8FCFE2;--sky-soft:#D6EEF6;--blue:#5FA8C4;
+--navy:#2E5C74;--blush:#F4B3BE;--blush-soft:#FCE1E6;--teal:#7CCBC9;--yellow:#F7E6A8;--ink:#41505A;
+--round:"M PLUS Rounded 1c","Noto Sans TC",sans-serif;--body:"Noto Sans TC","M PLUS Rounded 1c",sans-serif;
+--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Noto Sans TC",monospace;}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
+body{background:#e6ded0;font-family:var(--body);color:var(--ink);display:flex;align-items:center;justify-content:center;min-height:100vh;overflow:hidden}
+.stage{width:1180px;height:664px;flex:none;transform-origin:center center}
+.deck{width:1180px;height:664px;position:relative}
+.slide{position:absolute;inset:0;border-radius:28px;overflow:hidden;opacity:0;transform:rotate(-.5deg) scale(.985);transition:.45s ease;pointer-events:none;
+background:radial-gradient(circle,#E7DFCE 1.5px,transparent 1.6px) 0 0/26px 26px,var(--cream);box-shadow:0 26px 64px rgba(46,92,116,.20)}
+.slide.active{opacity:1;transform:none;pointer-events:auto}
+.tape{position:absolute;width:136px;height:36px;background:var(--sky);opacity:.5;transform:rotate(-6deg);border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.08);z-index:2}
+.tape.b{background:var(--blush);transform:rotate(7deg)}.tape.y{background:var(--yellow);opacity:.72}.tape.t{background:var(--teal);opacity:.5}
+.pad{position:absolute;inset:0;padding:46px 60px 48px;display:flex;flex-direction:column}
+.pad.r{padding-right:230px}
+b.nv{color:var(--navy)}b.bl{color:var(--blue)}
+.u{background:linear-gradient(transparent 58%,var(--yellow) 58%);padding:0 5px}
+/* 封面 */
+.brandrow{display:flex;align-items:center;gap:12px;transform:rotate(-1deg)}
+.brandrow img{height:50px}
+.badge{align-self:flex-start;background:var(--navy);color:#fff;font-family:var(--round);font-weight:800;padding:8px 22px;border-radius:999px;font-size:15px;transform:rotate(-1.5deg);box-shadow:0 6px 0 rgba(46,92,116,.18);margin-top:12px}
+h1{font-family:var(--round);font-weight:800;color:var(--navy);font-size:64px;line-height:1.18;margin-top:auto}
+h1 .u{padding:0 8px}
+h1 .hl{color:var(--blue)}
+.sub{margin:16px 0 auto;font-size:22px;color:#5f6d76;line-height:1.7;max-width:640px;font-family:var(--round);font-weight:700}
+.mascot{position:absolute;bottom:16px;right:46px;width:236px;transform:rotate(3deg);filter:drop-shadow(0 14px 18px rgba(46,92,116,.18))}
+.speech{position:absolute;background:#fff;border:3px solid var(--navy);border-radius:18px;padding:11px 17px;font-family:var(--round);font-weight:700;color:var(--navy);font-size:16px;transform:rotate(-2deg);z-index:6;white-space:nowrap}
+.speech:after{content:"";position:absolute;bottom:-14px;right:34px;width:0;height:0;border:12px solid transparent;border-top-color:var(--navy)}
+/* 章節徽章 */
+.part{align-self:flex-start;font-family:var(--round);font-weight:800;color:var(--navy);background:var(--yellow);border:3px solid var(--navy);padding:4px 14px;border-radius:10px;font-size:15px;transform:rotate(-2deg);margin-bottom:10px;box-shadow:3px 3px 0 rgba(46,92,116,.12)}
+/* 內頁通用 */
+h2{font-family:var(--round);font-weight:800;color:var(--navy);font-size:40px;line-height:1.3;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+h2 .star{color:var(--blush)}
+.hand{width:124px;height:8px;margin:12px 0 22px;background:radial-gradient(circle,var(--blush) 40%,transparent 41%) 0 0/16px 8px repeat-x;flex:none}
+.lead{font-size:21px;color:#5f6d76;line-height:1.7;margin-bottom:14px}
+.oneline{margin-top:auto;font-family:var(--round);font-weight:700;color:var(--navy);font-size:22px;background:var(--sky-soft);border:3px solid var(--navy);border-radius:16px;padding:12px 22px;transform:rotate(-.4deg);align-self:flex-start}
+.statement{font-family:var(--round);font-weight:800;color:var(--navy);font-size:30px;line-height:1.55}
+.small{font-size:16px;color:#8a979e;margin-top:10px}
+/* 任務徽章 */
+.taskbadge{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-family:var(--round);font-weight:800;color:#fff;padding:7px 18px;border-radius:999px;font-size:17px;transform:rotate(-1deg);box-shadow:3px 3px 0 rgba(46,92,116,.14);margin-bottom:10px}
+.taskbadge.solo{background:var(--blue)}.taskbadge.group{background:var(--teal)}.taskbadge.pink{background:#E79AAA}
+/* 路線圖 */
+.jmap{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-top:50px;position:relative}
+.jmap:before{content:"";position:absolute;top:28px;left:8%;right:8%;border-top:4px dashed var(--sky);z-index:0}
+.station{flex:1;text-align:center;position:relative;z-index:1}
+.station .dot{width:56px;height:56px;border-radius:50%;background:var(--sky);border:3px solid var(--navy);color:#fff;font-family:var(--round);font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:4px 4px 0 rgba(46,92,116,.14)}
+.station:nth-child(2) .dot{background:var(--blush)}.station:nth-child(3) .dot{background:var(--teal)}.station:nth-child(4) .dot{background:#E7B96B}.station:nth-child(5) .dot{background:var(--blue)}
+.station .lbl{font-family:var(--round);font-weight:800;color:var(--navy);font-size:20px}
+.station .sb{color:#5f6d76;font-size:16px;margin-top:4px;line-height:1.4}
+.bonus{margin-top:60px;align-self:center;background:var(--paper);border:3px dashed var(--blush);border-radius:16px;padding:12px 26px;font-family:var(--round);font-weight:700;color:var(--navy);font-size:19px}
+/* 對話 */
+.chat{display:flex;flex-direction:column;gap:14px}
+.msg{max-width:82%;padding:12px 20px;border:3px solid var(--navy);border-radius:18px;font-size:19px;line-height:1.6;background:var(--paper);box-shadow:3px 3px 0 rgba(46,92,116,.10)}
+.msg .who{display:block;font-family:var(--round);font-weight:800;font-size:14px;color:var(--blue);margin-bottom:2px}
+.msg.me{align-self:flex-end;background:var(--sky-soft);border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;border-bottom-left-radius:4px}
+.msg.act{align-self:flex-end;background:transparent;border-style:dashed;color:#8a979e;box-shadow:none;font-style:italic}
+/* 流程（你／AI） */
+.steps{display:flex;align-items:stretch;gap:8px;margin:6px 0 4px}
+.st{flex:1;background:var(--paper);border:3px solid var(--navy);border-radius:16px;padding:14px 14px 18px;min-height:150px;box-shadow:4px 4px 0 rgba(46,92,116,.12);display:flex;flex-direction:column;gap:6px}
+.st .who{align-self:flex-start;font-family:var(--round);font-weight:800;font-size:15px;padding:3px 11px;border-radius:999px;color:#fff}
+.st .who.you{background:#E79AAA}.st .who.ai{background:var(--blue)}
+.st.you{background:var(--blush-soft)}
+.st p{font-size:18.5px;line-height:1.5;color:#4f5d66}
+.st p b{color:var(--navy)}
+.sarrow{align-self:center;font-family:var(--round);font-weight:800;color:var(--blue);font-size:20px}
+.verdict{margin-top:48px;font-family:var(--round);font-weight:800;color:var(--navy);font-size:42px}
+/* 表格 */
+.tbl{width:100%;border-collapse:separate;border-spacing:0;background:var(--paper);border:3px solid var(--navy);border-radius:18px;overflow:hidden;box-shadow:5px 5px 0 rgba(46,92,116,.12);font-size:19px}
+.tbl th,.tbl td{padding:13px 20px;text-align:left;border-bottom:2px dashed #E3D9C6;line-height:1.5}
+.tbl tr:last-child td{border-bottom:none}
+.tbl th{font-family:var(--round);font-weight:800;color:#fff;background:var(--navy);font-size:19px}
+.tbl th:nth-child(3){background:var(--blue)}
+.tbl td:first-child{font-family:var(--round);font-weight:800;color:var(--navy);width:170px;background:#FAF4E7}
+.tbl td code,.tbl td .c{font-family:var(--mono);font-size:17px;background:var(--sky-soft);padding:1px 6px;border-radius:6px;color:var(--navy)}
+.tbl.wide td:first-child{width:auto}
+/* 便利貼 / 卡片 */
+.note-dash{background:var(--paper);border:3px dashed var(--navy);border-radius:18px;padding:16px 24px;margin-top:16px}
+.note-dash .t{font-family:var(--round);font-weight:800;color:var(--navy);font-size:20px;margin-bottom:3px}
+.note-dash p{color:#5f6d76;font-size:19px;line-height:1.6}
+.note-dash.pink{border-color:#E79AAA}.note-dash.teal{border-color:var(--teal)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:14px}
+.cards.two{grid-template-columns:1fr 1fr}
+.card{background:var(--paper);border:3px solid var(--navy);border-radius:22px;padding:28px 24px 24px;min-height:170px;position:relative;box-shadow:6px 6px 0 rgba(46,92,116,.14)}
+.cards>.card:nth-child(3n+2){transform:rotate(-1deg)}.cards>.card:nth-child(3n){transform:rotate(1deg)}
+.card .sticker{position:absolute;top:-16px;left:-12px;width:44px;height:44px;border-radius:50%;background:var(--sky);border:3px solid var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--round);font-weight:800;color:#fff;font-size:19px;transform:rotate(-8deg)}
+.cards>.card:nth-child(3n+2) .sticker{background:var(--blush)}.cards>.card:nth-child(3n) .sticker{background:var(--teal)}
+.card h3{font-family:var(--round);color:var(--navy);font-size:24px;margin:2px 0 10px}
+.card p{color:#5f6d76;font-size:18px;line-height:1.65}
+.cards.six{grid-template-columns:repeat(3,1fr);gap:28px 24px}
+.cards.six .card{padding:22px 20px 18px;min-height:150px}
+.cards.six .card h3{font-size:22px;margin-bottom:6px}
+.cards.six .card p{font-size:17px;line-height:1.55}
+/* 規則清單 */
+.rules{display:flex;flex-direction:column;gap:16px;margin-top:6px}
+.ri{display:flex;gap:16px;align-items:center;background:var(--paper);border:3px dashed var(--sky);border-radius:16px;padding:16px 24px}
+.ri:nth-child(2){border-color:var(--blush)}.ri:nth-child(3){border-color:var(--teal)}.ri:nth-child(4){border-color:#E7B96B}
+.ri .box{flex:none;width:42px;height:42px;font-size:19px;border-radius:11px;background:var(--sky-soft);border:3px solid var(--navy);display:flex;align-items:center;justify-content:center;color:var(--navy);font-family:var(--round);font-weight:800}
+.ri b{color:var(--navy);font-family:var(--round);font-size:22px}.ri span{color:#5f6d76;font-size:18px}
+/* 公式 */
+.formula{display:flex;align-items:center;justify-content:center;gap:18px;margin:14px 0 34px;flex-wrap:wrap}
+.fx{font-family:var(--round);font-weight:800;color:var(--navy);font-size:40px;background:var(--paper);border:3px solid var(--navy);border-radius:18px;padding:12px 24px;box-shadow:5px 5px 0 rgba(46,92,116,.14)}
+.fx.agent{background:var(--yellow)}.fx.model{background:var(--sky-soft)}.fx.harness{background:var(--blush-soft)}
+.fop{font-family:var(--round);font-weight:800;color:var(--blue);font-size:38px}
+/* 引言 */
+.bigquote{margin:auto 0;text-align:center;width:100%}
+.bigquote .q1{font-family:var(--round);font-weight:800;color:var(--navy);font-size:46px;line-height:1.5}
+.bigquote .q2{margin-top:28px;font-family:var(--round);font-weight:800;color:#5f6d76;font-size:32px;line-height:1.5}
+/* 對照：爛 vs 好 */
+.vs{display:grid;grid-template-columns:.75fr 1.5fr;gap:26px;margin-top:14px;align-items:start}
+.vpanel{background:var(--paper);border:3px solid var(--navy);border-radius:20px;padding:22px 26px;box-shadow:5px 5px 0 rgba(46,92,116,.12)}
+.vpanel .vt{display:inline-block;font-family:var(--round);font-weight:800;color:#fff;background:#B9C3C9;padding:5px 16px;border-radius:999px;font-size:17px;margin-bottom:14px}
+.vpanel.good .vt{background:var(--teal)}
+.vpanel .say{font-size:21px;line-height:1.9;color:var(--ink)}
+.vpanel.bad .say{font-size:28px;font-family:var(--round);font-weight:800;color:#8a979e}
+.mk{border-radius:4px;padding:1px 3px}
+.mk.a{background:var(--yellow)}.mk.b{background:var(--blush-soft)}.mk.c{background:var(--sky-soft)}
+.legend{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.legend span{font-family:var(--round);font-weight:800;font-size:16px;color:var(--navy);padding:4px 12px;border-radius:999px;border:2px solid var(--navy)}
+/* 程式碼 / 範例框 */
+.codebox{background:#FFFEFA;border:3px solid var(--navy);border-radius:16px;padding:14px 20px;font-family:var(--mono);font-size:17px;line-height:1.62;color:#3b4a53;white-space:pre;box-shadow:5px 5px 0 rgba(46,92,116,.12);
+background-image:repeating-linear-gradient(transparent 0 26.5px,#EEE6D6 26.5px 27.5px);background-position:0 15px}
+.codebox .h{color:var(--blue);font-weight:700}
+.codebox .k{color:#C76B7A}
+.split{display:grid;grid-template-columns:1.25fr 1fr;gap:26px;align-items:start}
+.tags-v{display:flex;flex-direction:column;gap:14px;margin-top:0}
+.tg{font-family:var(--round);font-weight:800;color:var(--navy);font-size:21px;background:var(--paper);border:3px solid var(--navy);border-radius:14px;padding:10px 16px;box-shadow:3px 3px 0 rgba(46,92,116,.12)}
+.tg small{display:block;font-family:var(--body);font-weight:500;font-size:16px;color:#6a7880;margin-top:2px}
+.tg:nth-child(1){border-left:12px solid var(--sky)}.tg:nth-child(2){border-left:12px solid var(--blush)}.tg:nth-child(3){border-left:12px solid #E79AAA}.tg:nth-child(4){border-left:12px solid var(--teal)}
+.prompt{background:#fff;border:3px solid var(--navy);border-radius:20px;border-bottom-left-radius:4px;padding:26px 30px;font-size:25px;line-height:1.75;color:var(--ink);box-shadow:5px 5px 0 rgba(46,92,116,.12);position:relative}
+.prompt:before{content:"✂️ 複製這段";position:absolute;top:-15px;right:20px;background:var(--yellow);border:2px solid var(--navy);border-radius:999px;font-family:var(--round);font-weight:800;font-size:13px;padding:2px 12px;color:var(--navy)}
+/* 摘錄 */
+.quotes{display:flex;flex-direction:column;gap:14px}
+.qt{background:var(--paper);border:3px dashed var(--sky);border-radius:14px;padding:13px 20px;font-size:19px;line-height:1.6;color:var(--ink)}
+.qt:nth-child(2){border-color:var(--blush)}.qt:nth-child(3){border-color:var(--teal)}
+.qt .src{display:block;font-family:var(--mono);font-size:14px;color:#9aa6ad;margin-bottom:2px}
+/* 三層 */
+.layers{display:flex;flex-direction:column;gap:14px;margin-top:4px}
+.ly{display:grid;grid-template-columns:270px 1fr 170px;gap:18px;align-items:center;background:var(--paper);border:3px solid var(--navy);border-radius:16px;padding:16px 22px;box-shadow:4px 4px 0 rgba(46,92,116,.12)}
+.ly .ln{font-family:var(--round);font-weight:800;color:var(--navy);font-size:21px}
+.ly .ln code{font-family:var(--mono);font-size:19px}
+.ly p{font-size:18px;color:#5f6d76;line-height:1.55}
+.ly .own{justify-self:end;font-family:var(--round);font-weight:800;font-size:15px;color:#fff;padding:5px 12px;border-radius:999px;white-space:nowrap}
+.ly.l3{background:var(--yellow)}.ly.l3 .own{background:#E79AAA}
+.ly.l2{background:var(--sky-soft)}.ly.l2 .own{background:var(--blue)}
+.ly.l1 .own{background:#9DAAB1}
+/* 階梯 */
+.ladder{display:flex;align-items:flex-end;gap:16px;margin-top:6px;height:350px}
+.rung{flex:1;background:var(--paper);border:3px solid var(--navy);border-radius:18px 18px 8px 8px;padding:16px 16px;box-shadow:5px 5px 0 rgba(46,92,116,.12);display:flex;flex-direction:column;gap:6px}
+.rung .rn{font-family:var(--round);font-weight:800;color:#fff;background:var(--blue);border-radius:9px;align-self:flex-start;padding:3px 12px;font-size:15px}
+.rung h3{font-family:var(--round);font-weight:800;color:var(--navy);font-size:23px}
+.rung .ex{font-family:var(--round);font-weight:700;color:var(--blue);font-size:18px}
+.rung p{font-size:17px;color:#5f6d76;line-height:1.5}
+.rung:nth-child(1){height:100%;background:var(--blush-soft)}.rung:nth-child(2){height:82%}.rung:nth-child(3){height:66%}.rung:nth-child(4){height:50%;background:var(--sky-soft)}
+.axis{display:flex;justify-content:space-between;font-family:var(--round);font-weight:700;color:#8a979e;font-size:16px;margin-top:10px}
+/* 框架頁 */
+.fw{display:grid;grid-template-columns:1.05fr 1fr;gap:26px;align-items:start}
+.kw{display:flex;flex-direction:column;gap:13px}
+.kw .k{background:var(--paper);border:3px solid var(--navy);border-radius:14px;padding:12px 18px;box-shadow:3px 3px 0 rgba(46,92,116,.12)}
+.kw .k b{font-family:var(--round);color:var(--navy);font-size:21px}
+.kw .k span{display:block;font-size:17.5px;color:#5f6d76;margin-top:2px;line-height:1.5}
+.fit{margin-top:16px;font-size:18px;color:var(--ink);line-height:1.6}
+.fit b{font-family:var(--round);color:#fff;background:var(--teal);padding:3px 12px;border-radius:8px;margin-right:6px}
+.metaphor{margin-top:18px;font-family:var(--round);font-weight:800;color:var(--navy);font-size:28px}
+/* 小圖示：圖 */
+.graph{position:relative;background:var(--paper);border:3px solid var(--navy);border-radius:20px;box-shadow:5px 5px 0 rgba(46,92,116,.12);padding:18px}
+.graph svg{width:100%;height:auto;display:block}
+/* 角色卡 */
+.crew{display:flex;flex-direction:column;gap:16px}
+.mem{display:flex;gap:16px;align-items:center;background:var(--paper);border:3px solid var(--navy);border-radius:16px;padding:15px 20px;box-shadow:4px 4px 0 rgba(46,92,116,.12)}
+.mem .em{font-size:36px;flex:none}
+.mem b{font-family:var(--round);color:var(--navy);font-size:23px}
+.mem span{display:block;font-size:17px;color:#5f6d76}
+.mem:nth-child(2){margin-left:24px}.mem:nth-child(3){margin-left:48px}
+/* n8n 流程 */
+.nodes{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;margin:4px 0 4px}
+.nd{background:var(--paper);border:3px solid var(--navy);border-radius:14px;padding:12px 16px;text-align:center;font-family:var(--round);font-weight:800;color:var(--navy);font-size:18px;box-shadow:3px 3px 0 rgba(46,92,116,.12);min-width:150px}
+.nd .ic{font-size:30px;display:block}
+.nd.agent{background:var(--yellow);min-width:240px}
+.nd.agent small{display:block;font-family:var(--body);font-weight:500;font-size:15px;color:#5f6d76;margin-top:2px}
+.nodes .ar{color:var(--blue);font-family:var(--round);font-weight:800;font-size:20px}
+/* 雙欄 */
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:6px}
+.panel{background:var(--paper);border:3px solid var(--navy);border-radius:20px;padding:22px 26px;box-shadow:5px 5px 0 rgba(46,92,116,.12)}
+.panel .pt{display:inline-block;font-family:var(--round);font-weight:800;color:#fff;background:var(--blue);padding:5px 16px;border-radius:999px;font-size:17px;margin-bottom:12px}
+.panel.p2 .pt{background:#E79AAA}
+.panel h3{font-family:var(--round);color:var(--navy);font-size:24px;margin-bottom:10px}
+.panel ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.panel li{position:relative;padding-left:22px;font-size:19px;color:#5f6d76;line-height:1.55}
+.panel li:before{content:"";position:absolute;left:2px;top:11px;width:9px;height:9px;border-radius:50%;background:var(--sky)}
+.panel.p2 li:before{background:var(--blush)}
+.panel p{font-size:20px;color:#5f6d76;line-height:1.65}
+/* 人物 */
+.side{position:absolute;bottom:16px;right:44px;width:150px;transform:rotate(3deg);filter:drop-shadow(0 12px 16px rgba(46,92,116,.16));z-index:3}
+.side.tall{width:128px}
+.side.wide{width:180px}
+.pageno{position:absolute;right:24px;bottom:14px;font-family:var(--round);font-weight:800;color:#c7bba6;font-size:14px;z-index:4}
+/* 導覽 */
+.nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:#fff;padding:8px 16px;border-radius:999px;box-shadow:0 8px 22px rgba(46,92,116,.16);z-index:9}
+.nav button{border:none;background:var(--sky-soft);color:var(--navy);width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;font-family:var(--round)}
+.dots{display:flex;gap:5px;max-width:70vw;flex-wrap:wrap;justify-content:center}.pg{width:8px;height:8px;border-radius:50%;background:#d6cbb8;cursor:pointer}
+.pg.on{background:var(--blue);width:20px;border-radius:6px}
+</style></head><body>
+<div class="stage" id="stage"><div class="deck">
+
+<!-- S1 封面 -->
+<section class="slide active">
+<div class="tape" style="top:26px;left:72px"></div><div class="tape b" style="top:20px;right:130px"></div>
+<div class="pad">
+<div class="brandrow"><img src="assets/logo.png" alt="呆一布 AI"></div>
+<span class="badge">呆一布 AI 共學實驗室・工作坊</span>
+<h1>換<span class="u">你</span>當<span class="hl">老闆</span>！</h1>
+<p class="sub">Agentic Work 與 AI 工作現場</p>
+</div>
+<div class="speech" style="bottom:238px;right:60px">老闆好！今天要交辦什麼？</div>
+<img class="mascot" src="assets/dive_wave.png" alt="DIVE">
+</section>
+
+<!-- S2 路線圖 -->
+<section class="slide">
+<div class="tape y" style="top:24px;left:64px"></div>
+<div class="pad">
+<h2>今天的工作路線圖</h2><div class="hand"></div>
+<div class="jmap">
+<div class="station"><div class="dot">1</div><div class="lbl">AI 出一張嘴？</div><div class="sb">Chat 和 Agent<br>差在哪</div></div>
+<div class="station"><div class="dot">2</div><div class="lbl">Model ＋ Harness</div><div class="sb">AI 為什麼<br>能動手</div></div>
+<div class="station"><div class="dot">3</div><div class="lbl">當老闆的基本功</div><div class="sb">怎麼交辦<br>（實作一）</div></div>
+<div class="station"><div class="dot">4</div><div class="lbl">寫一本員工手冊</div><div class="sb">CLAUDE.md／<br>AGENTS.md</div></div>
+<div class="station"><div class="dot">5</div><div class="lbl">LLM Wiki</div><div class="sb">讓 AI 養知識庫<br>（實作二）</div></div>
+</div>
+<div class="bonus">🎁 加碼一站：想自己蓋？LangGraph・CrewAI・n8n</div>
+</div>
+<div class="pageno">02</div>
+</section>
+
+<!-- S3 桌面好亂 -->
+<section class="slide">
+<div class="tape b" style="top:22px;right:96px"></div>
+<div class="pad r">
+<span class="part">第 1 站｜AI 出一張嘴？</span>
+<h2>我的桌面……好亂 😵</h2><div class="hand"></div>
+<div class="chat">
+<div class="msg me"><span class="who">toto</span>我的桌面好亂，可以幫我整理嗎？</div>
+<div class="msg ai"><span class="who">Chat AI</span>好的！請把桌面上<b class="nv">所有檔案的名稱、包括副檔名</b>都貼給我。</div>
+<div class="msg act">（打了 87 個檔名……）</div>
+<div class="msg ai"><span class="who">Chat AI</span>建議分成 5 類：作業、照片、講義、安裝檔、其他。以下是每個檔案該放的資料夾……</div>
+</div>
+</div>
+<img class="side wide" src="assets/student.png" alt="toto">
+<div class="pageno">03</div>
+</section>
+
+<!-- S4 都是我在做 -->
+<section class="slide">
+<div class="tape t" style="top:24px;left:66px"></div>
+<div class="pad r">
+<h2>然後呢？……都是我在做！</h2><div class="hand"></div>
+<div class="steps">
+<div class="st you"><span class="who you">你</span><p>一個一個<b>抄檔名</b>給 AI</p></div><div class="sarrow">→</div>
+<div class="st"><span class="who ai">AI</span><p>想分類、<b>排清單</b></p></div><div class="sarrow">→</div>
+<div class="st you"><span class="who you">你</span><p>自己<b>建 5 個資料夾</b></p></div><div class="sarrow">→</div>
+<div class="st you"><span class="who you">你</span><p><b>87 個檔案</b>一個一個拖進去</p></div>
+</div>
+<div class="verdict">AI 出一張<span class="u">嘴</span>，事情<span class="u">你</span>做。</div>
+</div>
+<div class="speech" style="bottom:196px;right:40px">我沒有手呀……</div>
+<img class="side" src="assets/dive_confused.png" alt="DIVE">
+<div class="pageno">04</div>
+</section>
+
+<!-- S5 換一種用法 -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:90px"></div>
+<div class="pad">
+<h2>同一件事，換一種用法</h2><div class="hand"></div>
+<div class="steps">
+<div class="st you"><span class="who you">你</span><p>「幫我整理桌面，<b>先給我看計畫</b>」</p></div><div class="sarrow">→</div>
+<div class="st"><span class="who ai">AI</span><p>自己<b>打開資料夾</b>、看所有檔案</p></div><div class="sarrow">→</div>
+<div class="st"><span class="who ai">AI</span><p>提出<b>分類計畫</b></p></div><div class="sarrow">→</div>
+<div class="st you"><span class="who you">你</span><p>「可以，<b>照做</b>」</p></div><div class="sarrow">→</div>
+<div class="st"><span class="who ai">AI</span><p><b>建資料夾、搬檔案</b>，回報結果</p></div>
+</div>
+<div class="verdict"><span class="u">你</span>出一張嘴，事情 AI 做。</div>
+</div>
+<img class="side" src="assets/dive_cheer.png" alt="DIVE" style="width:170px">
+<div class="pageno">05</div>
+</section>
+
+<!-- S6 換你當老闆 -->
+<section class="slide">
+<div class="tape b" style="top:22px;left:70px"></div>
+<div class="pad">
+<h2>從「問 AI」到「交辦給 AI」</h2><div class="hand"></div>
+<table class="tbl">
+<tr><th></th><th>對話式（Chat）</th><th>代理式（Agentic）</th></tr>
+<tr><td>你在做的事</td><td>問問題</td><td>交辦一件工作</td></tr>
+<tr><td>AI 像是</td><td>顧問</td><td>員工、同事</td></tr>
+<tr><td>過程</td><td>一問一答，你全程在場</td><td>多步驟自己做，你可以離開</td></tr>
+<tr><td>能碰的東西</td><td>對話框裡的文字</td><td>檔案、瀏覽器、工具</td></tr>
+<tr><td>你拿到的</td><td>一段回答</td><td>一份成品</td></tr>
+</table>
+<div class="oneline" style="margin-top:18px">從今天起，你不是 AI 的手腳，你是它的<b class="bl">老闆</b>。</div>
+</div>
+<div class="pageno">06</div>
+</section>
+
+<!-- S7 同一個介面 -->
+<section class="slide">
+<div class="tape t" style="top:24px;right:110px"></div>
+<div class="pad r">
+<h2>不是換一個 App，是換一種用法</h2><div class="hand"></div>
+<p class="lead">Claude、ChatGPT 現在都是<b class="nv">同一個介面裡，兩種用法並存</b>。</p>
+<div class="note-dash" style="margin-top:6px"><div class="t">判斷標準 👇</div>
+<p style="font-family:var(--round);font-weight:800;color:var(--navy);font-size:26px;line-height:1.55;margin-top:4px">我是在<span class="u">聊天</span>，<br>還是在<span class="u">交辦一件有成品的工作</span>？</p></div>
+<p class="small">產品名稱會一直改，這個判斷標準不會。</p>
+</div>
+<img class="side tall" src="assets/teacher.png" alt="老師" style="width:150px">
+<div class="pageno">07</div>
+</section>
+
+<!-- S8 LLM 只會生成文字 -->
+<section class="slide">
+<div class="tape y" style="top:22px;left:60px"></div>
+<div class="pad r">
+<span class="part">第 2 站｜Model ＋ Harness</span>
+<h2>LLM 本身，只會生成文字</h2><div class="hand"></div>
+<p class="lead">不管多聰明，模型本身做的事只有一件——<b class="nv">接下一個字</b>。</p>
+<div class="cards" style="margin-top:14px">
+<div class="card"><div class="sticker">✕</div><h3>不能開資料夾</h3><p>它不能自己打開你的資料夾。</p></div>
+<div class="card"><div class="sticker">✕</div><h3>不能按按鈕</h3><p>它不能自己按下「新增資料夾」。</p></div>
+<div class="card"><div class="sticker">✕</div><h3>不能上網</h3><p>它不能自己上網查最新資料。</p></div>
+</div>
+<div class="oneline" style="margin-top:auto">那 AI 怎麼「動手」的？🤔</div>
+</div>
+<img class="side" src="assets/dive_think.png" alt="DIVE">
+<div class="pageno">08</div>
+</section>
+
+<!-- S9 公式 -->
+<section class="slide">
+<div class="tape b" style="top:22px;right:96px"></div>
+<div class="pad">
+<h2>課程核心公式</h2><div class="hand"></div>
+<div class="formula">
+<div class="fx agent">AI Agent</div><div class="fop">＝</div>
+<div class="fx model">🧠 AI Model</div><div class="fop">＋</div>
+<div class="fx harness">🦺 Harness</div>
+</div>
+<div class="cards two">
+<div class="card"><div class="sticker">腦</div><h3>AI Model（大腦）</h3><p>負責<b class="nv">想</b>：理解、規劃、判斷、生成。</p></div>
+<div class="card"><div class="sticker">手</div><h3>Harness（工作裝備）</h3><p>負責<b class="nv">做</b>：把模型說的「我要開這個檔案」真的執行，再把結果回報給模型。</p></div>
+</div>
+<div class="oneline" style="align-self:center">Agent 就是——<b class="bl">教 AI 用你的方法做事</b>。</div>
+</div>
+<div class="pageno">09</div>
+</section>
+
+<!-- S10 你做過了 -->
+<section class="slide">
+<div class="tape t" style="top:24px;left:66px"></div>
+<div class="pad r">
+<h2>其實你上個單元就做過 harness 了！</h2><div class="hand"></div>
+<table class="tbl wide">
+<tr><th>你用 AISuite 寫過的</th><th>Claude、ChatGPT 裡對應的</th></tr>
+<tr><td><code>while</code> 迴圈：想 → 做 → 看結果</td><td>內建的 agent loop</td></tr>
+<tr><td>自己寫的 Python 函數當工具</td><td>讀寫檔、終端機、瀏覽器、搜尋</td></tr>
+<tr><td>寫在程式裡的 system prompt</td><td>CLAUDE.md／AGENTS.md</td></tr>
+<tr><td>自己處理錯誤和重試</td><td>產品幫你處理</td></tr>
+</table>
+<div class="note-dash teal" style="margin-top:16px"><p>上個單元你蓋了一間<b class="nv">小工坊</b>；今天，你走進一間<b class="nv">裝備齊全的辦公室</b>。</p></div>
+</div>
+<img class="side" src="assets/dive_explain.png" alt="DIVE">
+<div class="pageno">10</div>
+</section>
+
+<!-- S11 六大裝備 -->
+<section class="slide">
+<div class="tape y" style="top:20px;right:90px"></div>
+<div class="pad">
+<h2>一個完整的 harness 有什麼？</h2><div class="hand" style="margin-bottom:26px"></div>
+<div class="cards six">
+<div class="card"><div class="sticker">1</div><h3>💻 工作環境</h3><p>有自己的電腦（沙盒），可以存檔、跑程式。</p></div>
+<div class="card"><div class="sticker">2</div><h3>🧰 工具</h3><p>讀寫檔案、終端機、瀏覽器、網路搜尋。</p></div>
+<div class="card"><div class="sticker">3</div><h3>🔌 連接器（MCP）</h3><p>接上 Gmail、行事曆、雲端硬碟等你的 App。</p></div>
+<div class="card"><div class="sticker">4</div><h3>📘 技能（Skills）</h3><p>一個資料夾＋一份 SKILL.md，教它某件事的「標準作業流程」。</p></div>
+<div class="card"><div class="sticker">5</div><h3>📜 規則檔</h3><p>CLAUDE.md／AGENTS.md，每次上工前先讀。</p></div>
+<div class="card"><div class="sticker">6</div><h3>⏰ 排程</h3><p>時間到了，自己開工。</p></div>
+</div>
+<p class="small" style="margin-top:18px">💡 MCP 管「接得上」，Skills 管「會做法」。</p>
+</div>
+<div class="pageno">11</div>
+</section>
+
+<!-- S12 重點 -->
+<section class="slide">
+<div class="tape" style="top:24px;left:70px"></div><div class="tape b" style="bottom:30px;right:240px;top:auto"></div>
+<div class="pad r">
+<div class="bigquote" style="text-align:left">
+<div class="q1">模型大家都差不多，<br><span class="u">決定好不好用的是 harness</span>。</div>
+<div class="q2">而 harness 裡，你最能掌控的，<br>就是那份<b class="bl">規則檔</b>。</div>
+<p class="small" style="margin-top:22px;font-size:16px">等等第 4 站就來寫它 👉</p>
+</div>
+</div>
+<img class="side" src="assets/dive_wave.png" alt="DIVE" style="width:170px">
+<div class="pageno">12</div>
+</section>
+
+<!-- S13 交辦三件事 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:100px"></div>
+<div class="pad">
+<span class="part">第 3 站｜當老闆的基本功</span>
+<h2>好老闆交辦，講清楚三件事</h2><div class="hand"></div>
+<div class="cards" style="margin-top:10px">
+<div class="card"><div class="sticker">①</div><h3>要什麼成品</h3><p>做完我會拿到什麼？放在哪？什麼格式？</p></div>
+<div class="card"><div class="sticker">②</div><h3>有什麼限制</h3><p>哪些可以動、哪些不能動？</p></div>
+<div class="card"><div class="sticker">③</div><h3>怎麼算做完</h3><p>我要怎麼驗收？</p></div>
+</div>
+<div class="note-dash pink" style="margin-top:auto"><p>你不說，它就只能猜。呆一布很聰明，但它<b class="nv">不會讀心</b>。</p></div>
+</div>
+<div class="pageno">13</div>
+</section>
+
+<!-- S14 爛 vs 好 -->
+<section class="slide">
+<div class="tape y" style="top:22px;left:64px"></div>
+<div class="pad">
+<h2>同一件事，兩種交辦</h2><div class="hand"></div>
+<div class="vs">
+<div class="vpanel bad"><span class="vt">😵 爛交辦</span><div class="say">「幫我整理桌面。」</div></div>
+<div class="vpanel good"><span class="vt">😊 好交辦</span>
+<div class="say">「幫我整理<span class="mk a">『練習桌面』這個資料夾</span>。依用途分類，資料夾名稱用中文。<span class="mk b">不要刪除任何檔案</span>，看不出用途的放進『待確認』。<span class="mk b">動手前先給我看分類計畫</span>，<span class="mk c">做完列出每個檔案搬到哪裡</span>。」</div>
+<div class="legend"><span style="background:var(--yellow)">成品</span><span style="background:var(--blush-soft)">限制</span><span style="background:var(--sky-soft)">驗收</span></div>
+</div>
+</div>
+</div>
+<div class="pageno">14</div>
+</section>
+
+<!-- S15 安全守則 -->
+<section class="slide">
+<div class="tape b" style="top:22px;right:110px"></div>
+<div class="pad r">
+<h2>老闆的安全守則 ⚠️</h2><div class="hand"></div>
+<div class="rules">
+<div class="ri"><div class="box">1</div><div><b>先給練習場</b>　<span>用練習資料夾或檔案副本，不要一開始就交出整台電腦。</span></div></div>
+<div class="ri"><div class="box">2</div><div><b>不可逆的事先問我</b>　<span>刪檔案、寄信、付款，一定要它先停下來問你。</span></div></div>
+<div class="ri"><div class="box">3</div><div><b>先計畫、再動手</b>　<span>先看它打算怎麼做，你點頭了才執行。</span></div></div>
+</div>
+</div>
+<div class="speech" style="bottom:196px;right:24px">刪掉了就救不回來喔！</div>
+<img class="side" src="assets/dive_confused.png" alt="DIVE">
+<div class="pageno">15</div>
+</section>
+
+<!-- S16 實作一 -->
+<section class="slide">
+<div class="tape t" style="top:24px;left:66px"></div>
+<div class="pad r">
+<span class="taskbadge solo">💻 個人實作 · 15 分鐘</span>
+<h2>實作一：幫我整理這個資料夾</h2><div class="hand"></div>
+<div class="rules">
+<div class="ri"><div class="box">1</div><div><b>下載練習包</b>　<span><code style="font-family:var(--mono)">messy-desktop.zip</code>，解壓縮</span></div></div>
+<div class="ri"><div class="box">2</div><div><b>寫一段交辦</b>　<span>用上一頁的三件事：成品、限制、驗收</span></div></div>
+<div class="ri"><div class="box">3</div><div><b>先看計畫</b>　<span>要它先給計畫，你看過、修改、核准</span></div></div>
+<div class="ri"><div class="box">4</div><div><b>動手＋驗收</b>　<span>讓它做完，最後自己檢查結果</span></div></div>
+</div>
+</div>
+<img class="side wide" src="assets/student.png" alt="toto">
+<div class="pageno">16</div>
+</section>
+
+<!-- S17 實作一回顧 -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:96px"></div>
+<div class="pad r">
+<span class="taskbadge pink">🙋 全班分享</span>
+<h2>當老闆的感覺如何？</h2><div class="hand"></div>
+<div class="rules">
+<div class="ri"><div class="box">?</div><div><b>它的分類計畫，跟你想的一樣嗎？</b></div></div>
+<div class="ri"><div class="box">?</div><div><b>你修改了它哪些地方？</b></div></div>
+<div class="ri"><div class="box">?</div><div><b>如果下次再整理，你希望它一開始就知道什麼？</b></div></div>
+</div>
+<div class="oneline" style="margin-top:auto">最後一題的答案，就是下一站的主角 👉</div>
+</div>
+<img class="side tall" src="assets/wenwen.png" alt="問問" style="width:118px">
+<div class="pageno">17</div>
+</section>
+
+<!-- S18 第一天上班 -->
+<section class="slide">
+<div class="tape b" style="top:22px;left:70px"></div>
+<div class="pad r">
+<span class="part">第 4 站｜寫一本員工手冊</span>
+<h2>你的 AI 員工，每天都是第一天上班</h2><div class="hand"></div>
+<p class="lead">每開一個新對話，它都<b class="nv">不記得你上次教過什麼</b>。</p>
+<div class="chat" style="margin-top:8px">
+<div class="msg me"><span class="who">你</span>跟上次一樣整理就好。</div>
+<div class="msg ai"><span class="who">DIVE</span>上次？……我們見過嗎？🥺</div>
+</div>
+</div>
+<img class="side" src="assets/dive_confused.png" alt="DIVE">
+<div class="pageno">18</div>
+</section>
+
+<!-- S19 員工手冊 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:96px"></div>
+<div class="pad">
+<h2>解法：寫一本員工手冊 📒</h2><div class="hand"></div>
+<p class="lead">在工作資料夾放一份文字檔，AI <b class="nv">每次上工前都會先讀</b>。</p>
+<div class="cards two" style="margin-top:12px">
+<div class="card"><div class="sticker">C</div><h3 style="font-family:var(--mono)">CLAUDE.md</h3><p>Claude 讀的手冊。</p></div>
+<div class="card"><div class="sticker">A</div><h3 style="font-family:var(--mono)">AGENTS.md</h3><p>Codex 等其他工具讀的手冊。</p></div>
+</div>
+<div class="note-dash" style="margin-top:auto"><p>內容一樣，只是檔名不同。它就是你「<b class="nv">教 AI 用你的方法做事</b>」的地方。</p></div>
+</div>
+<div class="pageno">19</div>
+</section>
+
+<!-- S20 手冊裡寫什麼 -->
+<section class="slide">
+<div class="tape y" style="top:20px;left:64px"></div>
+<div class="pad">
+<h2>一本手冊，通常寫這四件事</h2><div class="hand"></div>
+<div class="split">
+<div class="codebox"><span class="h"># 我的檔案整理手冊</span>
+<span class="h">## 這裡是什麼</span>
+我的大學資料夾，放課程作業和講義。
+<span class="h">## 我的習慣</span>
+- 資料夾依「學期／課名」分，例如 2026秋／生成式AI
+- 檔名開頭加日期：20261101_作業3.pdf
+<span class="h">## 不能做的事</span>
+- <span class="k">不准刪除任何檔案</span>，不確定的放「待確認」
+<span class="h">## 做完要</span>
+- 列出搬了哪些檔案</div>
+<div class="tags-v">
+<div class="tg">這裡是什麼<small>讓新人知道自己在哪、在做什麼</small></div>
+<div class="tg">我的習慣<small>你的命名、分類、格式偏好</small></div>
+<div class="tg">不能做的事<small>地雷和底線，寫清楚最安心</small></div>
+<div class="tg">做完要<small>交差的方式，也就是驗收</small></div>
+</div>
+</div>
+</div>
+<div class="pageno">20</div>
+</section>
+
+<!-- S21 偷看真的手冊 -->
+<section class="slide">
+<div class="tape b" style="top:22px;right:110px"></div>
+<div class="pad r">
+<h2>偷看：這份講義是怎麼做出來的？</h2><div class="hand"></div>
+<p class="lead" style="margin-bottom:12px">你現在看的這份投影片，是呆一布團隊和 AI 一起做的。我們的資料夾裡就有一份 CLAUDE.md：</p>
+<div class="quotes">
+<div class="qt"><span class="src">CLAUDE.md</span>「<b class="nv">內容先行</b>：一定先寫好逐頁文字稿，才生成投影片。」</div>
+<div class="qt"><span class="src">CLAUDE.md</span>「色票、字體勿改；中文一律全形標點。」</div>
+<div class="qt"><span class="src">CLAUDE.md</span>「每次工作結束前，更新 NOTES.md：做到哪、下次從哪開始。」</div>
+</div>
+<div class="oneline" style="margin-top:auto">每次開新對話，AI 都先讀它，所以它記得<b class="bl">我們的做法</b>。</div>
+</div>
+<img class="side tall" src="assets/teacher.png" alt="老師" style="width:150px">
+<div class="pageno">21</div>
+</section>
+
+<!-- S22 跟 AI 討論 -->
+<section class="slide">
+<div class="tape t" style="top:22px;left:66px"></div>
+<div class="pad">
+<h2>手冊不要自己從零寫，<span class="u">跟 AI 討論出來</span></h2><div class="hand"></div>
+<div class="cards" style="margin-top:10px">
+<div class="card"><div class="sticker">1</div><h3>讓 AI 訪談你</h3><p>請它一題一題問你的習慣、要求、地雷。</p></div>
+<div class="card"><div class="sticker">2</div><h3>AI 起草，你修改</h3><p>它寫初稿，你刪改到滿意。</p></div>
+<div class="card"><div class="sticker">3</div><h3>每次收工，更新手冊</h3><p>「這次我糾正了你哪些地方？整理後寫進 CLAUDE.md。」</p></div>
+</div>
+<div class="note-dash teal" style="margin-top:auto"><p>手冊會越用越厚，你的 AI 員工也會<b class="nv">越來越懂你</b>。</p></div>
+</div>
+<div class="pageno">22</div>
+</section>
+
+<!-- S23 一句話開始 -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:96px"></div>
+<div class="pad r">
+<h2>複製這句，就能開始 ✂️</h2><div class="hand" style="margin-bottom:30px"></div>
+<div class="prompt">「我想請你幫我整理每週的課堂筆記。動手之前，請先<b class="nv">一題一題訪談我</b>，問清楚我的習慣、想要的成品、不能做的事。問完後，幫我寫成一份 CLAUDE.md。」</div>
+<p class="small" style="font-size:15px;margin-top:18px">重點是「一題一題」——讓它問，你只要回答。</p>
+</div>
+<div class="speech" style="bottom:200px;right:30px">我來問，你來答！</div>
+<img class="side" src="assets/dive_cheer.png" alt="DIVE" style="width:165px">
+<div class="pageno">23</div>
+</section>
+
+<!-- S24 LLM Wiki -->
+<section class="slide">
+<div class="tape b" style="top:22px;left:70px"></div>
+<div class="pad">
+<span class="part">第 5 站｜Karpathy 的 LLM Wiki</span>
+<h2>一個很紅的點子：LLM Wiki</h2><div class="hand"></div>
+<p class="lead">2026 年 4 月，Andrej Karpathy（OpenAI 共同創辦人之一、前 Tesla AI 負責人）分享了一個點子：</p>
+<div class="twocol">
+<div class="panel"><span class="pt">平常的做法</span><p>每次提問，AI 都從一堆原始文件裡<b class="nv">臨時翻找</b>。問完就散了，下次重來。</p></div>
+<div class="panel p2"><span class="pt">LLM Wiki</span><p>讓 AI <b class="nv">持續整理並維護</b>一套互相連結的 wiki，知識會越積越多。</p></div>
+</div>
+<div class="oneline" style="align-self:center;font-size:24px">你負責讀，AI 負責寫。</div>
+</div>
+<div class="pageno">24</div>
+</section>
+
+<!-- S25 三層 -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:96px"></div>
+<div class="pad">
+<h2>LLM Wiki 的三層架構</h2><div class="hand"></div>
+<div class="layers">
+<div class="ly l3"><div class="ln"><code>CLAUDE.md</code>／<code>AGENTS.md</code><br><small style="font-size:14px">規則手冊</small></div><p>wiki 長什麼樣、怎麼收資料、怎麼回答、怎麼維護。</p><span class="own">你和 AI 一起寫</span></div>
+<div class="ly l2"><div class="ln"><code>wiki/</code><br><small style="font-size:14px">AI 寫的知識頁</small></div><p>摘要頁、概念頁、人物頁，彼此互相連結。</p><span class="own">AI 建立和更新</span></div>
+<div class="ly l1"><div class="ln"><code>raw/</code><br><small style="font-size:14px">原始資料</small></div><p>文章、講義、筆記、圖片。是事實的來源。</p><span class="own">AI 只讀、不改</span></div>
+</div>
+<div class="note-dash pink" style="margin-top:auto"><p>又是它！整個 wiki 怎麼長，由<b class="nv">手冊</b>決定。</p></div>
+</div>
+<div class="pageno">25</div>
+</section>
+
+<!-- S26 三個動作 -->
+<section class="slide">
+<div class="tape y" style="top:22px;left:64px"></div>
+<div class="pad">
+<h2>老闆只要下三種指令</h2><div class="hand"></div>
+<div class="cards" style="margin-top:10px">
+<div class="card"><div class="sticker">📥</div><h3>收錄（ingest）</h3><p>丟一份新資料進 raw/，叫它整理進 wiki：寫摘要、更新相關頁、補連結。</p></div>
+<div class="card"><div class="sticker">🔍</div><h3>提問（query）</h3><p>對 wiki 發問；好的答案也可以存回 wiki。</p></div>
+<div class="card"><div class="sticker">🩺</div><h3>健檢（lint）</h3><p>定期請它檢查：有沒有矛盾、過時、沒連到的頁面。</p></div>
+</div>
+<p class="small" style="margin-top:auto;font-size:15px">📎 wiki 裡通常還有 <code style="font-family:var(--mono)">index.md</code>（目錄）和 <code style="font-family:var(--mono)">log.md</code>（工作日誌）。</p>
+</div>
+<div class="pageno">26</div>
+</section>
+
+<!-- S27 實作二 -->
+<section class="slide">
+<div class="tape b" style="top:22px;right:110px"></div>
+<div class="pad r">
+<span class="taskbadge group">👥 兩人一組 · 25 分鐘</span>
+<h2>實作二：養一個你的 LLM Wiki</h2><div class="hand"></div>
+<div class="rules">
+<div class="ri"><div class="box">1</div><div><b>選主題</b>　<span>這門課的講義、某個社團、喜歡的作家……放 5–10 份資料進 raw/</span></div></div>
+<div class="ri"><div class="box">2</div><div><b>寫手冊</b>　<span>用剛剛的方法，讓 AI 訪談你，寫出 CLAUDE.md</span></div></div>
+<div class="ri"><div class="box">3</div><div><b>第一次收錄</b>　<span>請它把 raw/ 整理成 wiki</span></div></div>
+<div class="ri"><div class="box">4</div><div><b>再丟一份新資料</b>　<span>觀察：它怎麼更新<b class="nv">已經存在</b>的頁面？</span></div></div>
+</div>
+</div>
+<img class="side wide" src="assets/student.png" alt="toto">
+<div class="pageno">27</div>
+</section>
+
+<!-- S28 觀察 -->
+<section class="slide">
+<div class="tape t" style="top:22px;left:66px"></div>
+<div class="pad r">
+<span class="taskbadge pink">🔄 跟隔壁組交換看</span>
+<h2>一樣的資料，長出不一樣的 wiki？</h2><div class="hand"></div>
+<div class="rules">
+<div class="ri"><div class="box">?</div><div><b>你們的手冊，和隔壁組差在哪？</b></div></div>
+<div class="ri"><div class="box">?</div><div><b>這些差別，讓 wiki 長得哪裡不一樣？</b></div></div>
+<div class="ri"><div class="box">?</div><div><b>如果要改 wiki 的樣子，你會改手冊的哪一句？</b></div></div>
+</div>
+<div class="oneline" style="margin-top:auto">手冊不同，成品就不同。這就是<b class="bl">教 AI 用你的方法做事</b>。</div>
+</div>
+<img class="side" src="assets/dive_explain.png" alt="DIVE">
+<div class="pageno">28</div>
+</section>
+
+<!-- S29 三條路 -->
+<section class="slide">
+<div class="tape y" style="top:20px;right:96px"></div>
+<div class="pad">
+<span class="part">加碼站｜想自己蓋 harness？</span>
+<h2>想自己蓋 harness？有三條路</h2><div class="hand" style="margin-bottom:14px"></div>
+<div class="ladder">
+<div class="rung"><span class="rn">路 1</span><h3>從零寫</h3><div class="ex">AISuite（上個單元）</div><p>迴圈、工具，全部自己寫。</p></div>
+<div class="rung"><span class="rn">路 2</span><h3>用框架寫程式</h3><div class="ex">LangGraph、CrewAI</div><p>骨架有人幫你搭好。</p></div>
+<div class="rung"><span class="rn">路 3</span><h3>用平台拖拉</h3><div class="ex">n8n</div><p>幾乎不用寫程式。</p></div>
+<div class="rung"><span class="rn" style="background:var(--teal)">今天</span><h3>現成代理產品</h3><div class="ex">Claude、ChatGPT</div><p>交辦就好。</p></div>
+</div>
+<div class="axis"><span>◀ 自己做的事最多</span><span>核心都一樣：想 → 呼叫工具 → 看結果 → 再想</span><span>自己做的事最少 ▶</span></div>
+</div>
+<div class="pageno">29</div>
+</section>
+
+<!-- S30 LangGraph -->
+<section class="slide">
+<div class="tape b" style="top:22px;left:70px"></div>
+<div class="pad">
+<h2>LangGraph｜把工作畫成流程圖</h2><div class="hand"></div>
+<p class="lead">用程式把 agent 的工作畫成一張「圖」：每個步驟是一個<b class="nv">節點</b>，箭頭決定下一步去哪。</p>
+<div class="fw">
+<div class="graph">
+<svg viewBox="0 0 440 210" font-family="M PLUS Rounded 1c, Noto Sans TC, sans-serif" font-weight="800">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5FA8C4"/></marker></defs>
+<rect x="8" y="80" width="88" height="46" rx="12" fill="#D6EEF6" stroke="#2E5C74" stroke-width="3"/><text x="52" y="109" text-anchor="middle" fill="#2E5C74" font-size="16">查資料</text>
+<rect x="138" y="80" width="88" height="46" rx="12" fill="#FFFDF8" stroke="#2E5C74" stroke-width="3"/><text x="182" y="109" text-anchor="middle" fill="#2E5C74" font-size="16">寫草稿</text>
+<rect x="268" y="80" width="78" height="46" rx="12" fill="#FCE1E6" stroke="#2E5C74" stroke-width="3"/><text x="307" y="101" text-anchor="middle" fill="#2E5C74" font-size="13">👤 人工</text><text x="307" y="118" text-anchor="middle" fill="#2E5C74" font-size="13">核准？</text>
+<rect x="374" y="80" width="58" height="46" rx="12" fill="#F7E6A8" stroke="#2E5C74" stroke-width="3"/><text x="403" y="109" text-anchor="middle" fill="#2E5C74" font-size="15">完成</text>
+<line x1="98" y1="103" x2="134" y2="103" stroke="#5FA8C4" stroke-width="3" marker-end="url(#ah)"/>
+<line x1="228" y1="103" x2="264" y2="103" stroke="#5FA8C4" stroke-width="3" marker-end="url(#ah)"/>
+<line x1="348" y1="103" x2="370" y2="103" stroke="#5FA8C4" stroke-width="3" marker-end="url(#ah)"/>
+<path d="M307,128 C307,185 182,185 182,130" fill="none" stroke="#E79AAA" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<text x="245" y="200" text-anchor="middle" fill="#C76B7A" font-size="13">不行 → 重寫</text>
+<rect x="110" y="14" width="220" height="34" rx="10" fill="#FFFDF8" stroke="#7CCBC9" stroke-width="3" stroke-dasharray="5 4"/><text x="220" y="37" text-anchor="middle" fill="#2E5C74" font-size="14">📋 狀態：大家共用一份記錄</text>
+</svg>
+</div>
+<div>
+<div class="kw">
+<div class="k"><b>節點＋箭頭</b><span>清楚控制每一步、分支、重試。</span></div>
+<div class="k"><b>狀態</b><span>整個流程共用一份記錄，中斷了也能接著做。</span></div>
+<div class="k"><b>人工關卡</b><span>可以設「這一步要人核准才繼續」。</span></div>
+</div>
+<p class="fit"><b>適合</b>流程要精準控制、要上線長期跑的系統</p>
+</div>
+</div>
+<div class="metaphor">🏭 像是<span class="u">畫好工廠產線</span>。</div>
+</div>
+<div class="pageno">30</div>
+</section>
+
+<!-- S31 CrewAI -->
+<section class="slide">
+<div class="tape t" style="top:22px;right:96px"></div>
+<div class="pad">
+<h2>CrewAI｜組一支 AI 團隊</h2><div class="hand"></div>
+<p class="lead">幫每個 agent 設定<b class="nv">角色</b>，讓它們分工合作。</p>
+<div class="fw">
+<div class="crew">
+<div class="mem"><span class="em">🔍</span><div><b>研究員</b><span>目標：找資料</span></div></div>
+<div class="mem"><span class="em">✍️</span><div><b>寫手</b><span>目標：寫成文章</span></div></div>
+<div class="mem"><span class="em">🧐</span><div><b>審稿人</b><span>目標：挑錯、修改</span></div></div>
+</div>
+<div>
+<div class="kw">
+<div class="k"><b>角色設定</b><span>每個角色有角色、目標、背景設定。</span></div>
+<div class="k"><b>分派方式</b><span>任務可以依序做，也可以由一位「主管」分派。</span></div>
+</div>
+<p class="fit"><b>適合</b>工作可以清楚拆成不同角色的情況</p>
+</div>
+</div>
+<div class="metaphor" style="margin-top:auto">👥 像是<span class="u">組一個專案小組</span>。</div>
+</div>
+<div class="pageno">31</div>
+</section>
+
+<!-- S32 n8n -->
+<section class="slide">
+<div class="tape y" style="top:22px;left:64px"></div>
+<div class="pad">
+<h2>n8n｜拖拉積木做自動化</h2><div class="hand"></div>
+<p class="lead">原本是自動化工具，在畫布上<b class="nv">拖拉節點、連線</b>就能做流程，現在內建 AI Agent 節點。</p>
+<div class="nodes">
+<div class="nd"><span class="ic">📨</span>收到新表單</div><span class="ar">→</span>
+<div class="nd agent"><span class="ic">🤖</span>AI Agent<small>接模型＋工具＋記憶</small></div><span class="ar">→</span>
+<div class="nd"><span class="ic">📊</span>寫進試算表</div><span class="ar">→</span>
+<div class="nd"><span class="ic">💬</span>發通知</div>
+</div>
+<div class="fw" style="margin-top:16px;grid-template-columns:1.3fr 1fr">
+<div class="kw">
+<div class="k"><b>接得多</b><span>可以接上數百種服務（Gmail、Slack、Notion……），也支援 MCP。</span></div>
+<div class="k"><b>可以自己架</b><span>社群版自己架設免費。</span></div>
+</div>
+<div>
+<p class="fit" style="margin-top:0"><b>適合</b>固定、會重複觸發的流程，不太想寫程式</p>
+<div class="metaphor">🚰 像是<span class="u">接好水管</span>，<br>水來了就自動流。</div>
+</div>
+</div>
+</div>
+<div class="pageno">32</div>
+</section>
+
+<!-- S33 自己蓋還是交辦 -->
+<section class="slide">
+<div class="tape b" style="top:22px;right:110px"></div>
+<div class="pad r">
+<h2>什麼時候自己蓋？什麼時候交辦？</h2><div class="hand"></div>
+<div class="twocol">
+<div class="panel"><span class="pt">交辦給代理產品</span><h3>臨時、多變、需要判斷</h3><ul><li>整理這批資料</li><li>做一份簡報</li><li>研究一個問題</li></ul></div>
+<div class="panel p2"><span class="pt">自己蓋</span><h3>固定、大量、要嵌進系統</h3><ul><li>每封客服信自動分類</li><li>每天自動產報表</li><li>放進自己的 App</li></ul></div>
+</div>
+<div class="note-dash" style="margin-top:auto"><p>自己蓋要自己顧：迴圈、工具、部署、金鑰、錯誤處理……<b class="nv">代理產品把這些都包好了</b>。</p></div>
+</div>
+<img class="side tall" src="assets/teacher.png" alt="老師" style="width:150px">
+<div class="pageno">33</div>
+</section>
+
+<!-- S34 老闆的責任 -->
+<section class="slide">
+<div class="tape t" style="top:22px;left:66px"></div>
+<div class="pad r">
+<span class="part">收尾｜老闆的責任</span>
+<h2>當老闆，責任更大</h2><div class="hand"></div>
+<div class="cards" style="margin-top:10px">
+<div class="card"><div class="sticker">✓</div><h3>驗收</h3><p>AI 動手越多，你越要會檢查。成品你簽名，就是你負責。</p></div>
+<div class="card"><div class="sticker">★</div><h3>品味</h3><p>什麼是「好」？這件事 AI 沒辦法替你決定。</p></div>
+<div class="card"><div class="sticker">!</div><h3>別把思考外包</h3><p>小心「增強陷阱」：產量變多了，能力卻變弱了。</p></div>
+</div>
+</div>
+<img class="side" src="assets/dive_think.png" alt="DIVE">
+<div class="pageno">34</div>
+</section>
+
+<!-- S35 回家作業 -->
+<section class="slide">
+<div class="tape y" style="top:22px;right:96px"></div>
+<div class="pad">
+<span class="taskbadge solo">📝 回家作業</span>
+<h2>為你的一件日常工作，寫一本手冊</h2><div class="hand"></div>
+<div class="rules">
+<div class="ri"><div class="box">1</div><div><b>挑一件每週都在做的事</b>　<span>整理筆記、記帳、社團公告……</span></div></div>
+<div class="ri"><div class="box">2</div><div><b>讓 AI 訪談你</b>　<span>寫出 CLAUDE.md（或 AGENTS.md）</span></div></div>
+<div class="ri"><div class="box">3</div><div><b>真的做一次，再更新手冊</b>　<span>根據結果修改</span></div></div>
+</div>
+<div class="note-dash pink" style="margin-top:auto"><div class="t">繳交</div><p>手冊第一版＋更新後的版本＋一句話：「我改了什麼？為什麼？」</p></div>
+</div>
+<div class="pageno">35</div>
+</section>
+
+<!-- S36 結尾 -->
+<section class="slide">
+<div class="tape" style="top:26px;left:72px"></div><div class="tape b" style="top:20px;right:130px"></div>
+<div class="pad">
+<div class="brandrow"><img src="assets/logo.png" alt="呆一布 AI"></div>
+<h1 style="font-size:58px">從今天起，<span class="u">你</span>是<span class="hl">老闆</span>！</h1>
+<p class="sub">你出一張嘴，AI 動手；<br>而你的方法，寫在手冊裡。</p>
+</div>
+<div class="speech" style="bottom:238px;right:50px">老闆，明天要交辦什麼？</div>
+<img class="mascot" src="assets/dive_happy.png" alt="DIVE">
+</section>
+
+</div></div>
+<div class="nav"><button onclick="go(-1)" aria-label="上一頁">‹</button><div class="dots" id="dots"></div><button onclick="go(1)" aria-label="下一頁">›</button></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;const dots=document.getElementById('dots');
+slides.forEach((_,k)=>{const d=document.createElement('div');d.className='pg'+(k?'':' on');d.onclick=()=>set(k);dots.appendChild(d);});
+function set(n){i=(n+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===i));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));}
+function go(d){set(i+d);}
+addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(1);}if(e.key==='ArrowLeft'||e.key==='PageUp')go(-1);});
+let tx=null;addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?1:-1);tx=null;});
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth*0.96/1180,(innerHeight-70)/664);stage.style.transform='scale('+s+')';}
+addEventListener('resize',fit);fit();
+</script>
+</body></html>

@@ -15,6 +15,11 @@
 
 ---
 
+## 2026-11-01 ｜ 新講義 agentic-work 定稿生成
+- 改了什麼：新增《換你當老闆！Agentic Work 與 AI 工作現場》（約 120 分鐘、36 頁、C 手帳風）：`ideas/agentic-work.md`、`slide-notes/agentic-work.md`、`lessons/agentic-work/`（index.html＋assets/ 10 張圖），首頁加卡片。新素材命名：`student.png`（toto_comp）、`wenwen.png`（wenwen_simple_05）、`teacher.png`（yenlung_explaining）。
+- 為什麼 / 影響到哪些未來檔案：投影片新增 16:9 等比縮放（舞台固定 1180×664，依視窗 scale），小螢幕不跑版；之後的翻頁簡報可沿用此做法。內容稿中帶課用的 ✏️ 待補（練習包、工具、繳交方式）不上投影片。
+- 誰：yenlung + Claude
+
 ## 2026-10-31 ｜ Git 改由雲端 Claude 代為 commit / push；所有電腦的資料夾都不放 `.git`
 - 改了什麼：`CLAUDE.md` 第十節與第十一節第 8 點改寫——原「git 只在 iMac 做」停用；改為在任何裝置的 Claude 對話說「push」，由雲端 Claude（透過裝在 `diveai-lab` 的 Claude GitHub App）比對 Dropbox 資料夾與 GitHub 後 commit / push 到 `main`。`SETUP.md` 第二節同步改寫，並補上 Windows 主機路徑。
 - 為什麼 / 影響到哪些未來檔案：iMac 上的 `.git` 已不見（「不是 git repo」），且想讓任何一台電腦（含手機）都能上 GitHub、不必回特定機器下指令。資料夾不放 `.git` 也徹底避開 Dropbox 同步弄壞 git 物件的問題。之後不要再在任何電腦上手動 git。

@@ -7,7 +7,7 @@
 >
 > 對 Claude 說「更新 NOTES.md」時：改寫「目前狀態」「下次從這裡開始」、勾掉／刪掉完成的待辦、加上新待辦。若有新的長期規則，另外寫進 `CLAUDE.md` 與 `log.md`，不要只留在這裡。
 
-最後更新：2026-10-31（Claude）
+最後更新：2026-11-01（Claude）
 
 ---
 
@@ -17,16 +17,21 @@
 |---|---|---|---|---|
 | `intro-assignment`（入門作業） | ✅ | — | — | ✅（2026-10 有修改） |
 | `intro-deeplearning`（一起潛進 AI！） | ✅ 23 頁＋2 份學習單 | ✅ | ✅ .key＋PDF | ✅ |
+| `agentic-work`（換你當老闆！） | ✅ 36 頁 | — | — | ✅ |
 
 - 2026-10-13～14：修改了 `intro-assignment`（網頁版與內容稿），已在 iMac commit（`b1afe64 修改第一份簡報`）。
 - 2026-10-19：新增 `SETUP.md`（新電腦接手清單）與本檔 `NOTES.md`；原本 `CLAUDE.md` 最後的「待辦／觀察」搬到這裡。
+- 2026-11-01：新增 `agentic-work`（換你當老闆！Agentic Work 與 AI 工作現場，約 120 分鐘）的設計稿與逐頁內容稿；同日定稿並生成 `lessons/agentic-work/`（C 手帳風，36 頁），已加進首頁。
 - 2026-10-31：git 改由雲端 Claude 代為 push（見 `CLAUDE.md` 第十節）；已清掉資料夾裡殘留的 `.git` 與 `_to_delete/`。
 
 ## 下次從這裡開始
 
-- （寫下一次要接著做的第一件事）✏️
+- `agentic-work` 已上線（尚未 push）：老師瀏覽一次網頁版，有要改的回 `slide-notes/agentic-work.md` 改再重生；準備兩個實作練習包。
 
 ## 待辦
+
+- [ ] `agentic-work`：準備實作一練習包 `messy-desktop.zip`（S16）與實作二 LLM Wiki 範例 raw 資料（S27）。
+- [ ] `agentic-work`：確認學生使用的代理工具（付費方案 vs 免費替代如 OpenCode）（S16）、回家作業繳交方式（S35）。
 
 - [ ] GitHub Pages 開啟：repo `diveai-lab/diveai-lessons` → Settings → Pages，來源 `main` 根目錄。
 - [ ] `slide-notes/intro-assignment.md` 開頭的「成品」路徑還是舊的 `slides/入門作業/index.html`，應改成 `lessons/intro-assignment/`；「用途」裡的 `ideas/呆一布AI共學_入門作業_學生版.md` 也應改成 `ideas/intro-assignment.md`。
